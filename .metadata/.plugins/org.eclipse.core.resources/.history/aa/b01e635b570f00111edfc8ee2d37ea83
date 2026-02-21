@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int AUTO_INCREMENT  PRIMARY KEY,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `mobile_number` varchar(20) NOT NULL,
+  `created_at` date NOT NULL,
+  `created_by` varchar(20) NOT NULL,
+  `updated_at` date DEFAULT NULL,
+    `updated_by` varchar(20) DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `characters` (
+  `user_id` int NOT NULL,
+  `character_id` int AUTO_INCREMENT  PRIMARY KEY,
+  `character_class` varchar(50) NOT NULL,
+  `level` int NOT NULL,
+  `created_at` date NOT NULL,
+  `created_by` varchar(20) NOT NULL,
+  `updated_at` date DEFAULT NULL,
+  `updated_by` varchar(20) DEFAULT NULL,
+  CONSTRAINT fk_user FOREIGN KEY (user_id)
+  REFERENCES user(user_id)
+  ON DELETE CASCADE
+);

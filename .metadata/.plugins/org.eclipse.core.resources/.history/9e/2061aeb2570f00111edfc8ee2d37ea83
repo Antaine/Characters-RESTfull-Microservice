@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int AUTO_INCREMENT  PRIMARY KEY,
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS characters (
  updated_at date DEFAULT NULL,
  updated_by varchar(20) DEFAULT NULL,
  CONSTRAINT fk_user FOREIGN KEY (user_id)
- REFERENCES users(user_id)
+ REFERENCES user(user_id)
  ON DELETE CASCADE
 );
