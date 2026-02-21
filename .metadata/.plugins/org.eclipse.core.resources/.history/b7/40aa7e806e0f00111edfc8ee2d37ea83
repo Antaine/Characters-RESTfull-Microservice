@@ -1,0 +1,31 @@
+package com.tus.characters.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.*;
+
+@Entity
+@Table(name = "characters")
+@Getter @Setter @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class Character extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "character_id")
+    private Long characterId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(name = "character_class", nullable = false)
+    private String characterClass;
+
+    @Column(name = "character_race", nullable = false)
+    private String characterRace;
+
+    @Column(nullable = false)
+    private int level;
+}

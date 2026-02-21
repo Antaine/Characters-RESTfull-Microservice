@@ -1,0 +1,61 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.entity.Character;
+import com.tus.characters.repository.CharactersRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CharacterServiceImpl {
+
+    private final CharactersRepository charactersRepository;
+
+    // Create a new character
+    public CharacterDto createCharacter(CharacterDto dto) {
+        Character character = new Character();
+        character.setUserId(dto.getUserId());
+        character.setCharacterClass(dto.getCharacterClass());
+        character.setCharacterRace(dto.getCharacterRace());
+        character.setLevel(dto.getLevel());
+
+        Character saved = charactersRepository.save(character);
+        return mapToDto(saved);
+    }
+
+    // Get all characters
+    public List<CharacterDto> getAllCharacters() {
+        return charactersRepository.findAll()
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    // Get characters by userId
+    public List<CharacterDto> getCharactersByUserId(Long userId) {
+        return charactersRepository.findByUserId(userId)
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    // Delete a character by id
+    public void deleteCharacter(Long characterId) {
+        charactersRepository.deleteById(characterId);
+    }
+
+    // Helper method to map entity to DTO
+    private CharacterDto mapToDto(Character character) {
+        CharacterDto dto = new CharacterDto();
+        dto.setUserId(character.getUserId());
+        dto.setCharacterClass(character.getCharacterClass());
+        dto.setCharacterRace(character.getCharacterRace());
+        dto.setLevel(character.getLevel());
+        return dto;
+    }
+}

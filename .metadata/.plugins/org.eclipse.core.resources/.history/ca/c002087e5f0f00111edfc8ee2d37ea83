@@ -1,0 +1,5 @@
+package com.tus.characters.dto;
+
+public class UserDto {
+
+}

@@ -1,0 +1,17 @@
+package com.tus.characters.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity@Table(name = "characters")@Getter@Setter@ToString@AllArgsConstructor@NoArgsConstructor
+public class Character extends BaseEntity {
+	
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)@Column(name = "character_id")
+    private Long characterId;
+    @Column(name = "user_id")
+    private Long userId;
+    @Column(name = "character_class")
+    private String characterClass;
+    private String characterRace;
+    private int level;
+}

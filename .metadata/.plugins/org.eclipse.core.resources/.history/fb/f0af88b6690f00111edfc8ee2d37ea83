@@ -1,0 +1,66 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.entity.Character;
+import com.tus.characters.repository.CharactersRepository;
+import com.tus.characters.service.ICharacterService;
+//import com.tus.characters.exception.ResourceNotFoundException;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CharacterServiceImpl implements ICharacterService {
+
+    private final CharactersRepository charactersRepository;
+
+    @Override
+    public CharacterDto createCharacter(CharacterDto characterDto) {
+        Character character = new Character();
+        character.setUserId(characterDto.getUserId());
+        character.setCharacterClass(characterDto.getCharacterClass());
+        character.setCharacterRace(characterDto.getCharacterRace());
+        character.setLevel(characterDto.getLevel());
+
+        Character savedCharacter = charactersRepository.save(character);
+        return mapToDto(savedCharacter);
+    }
+
+    @Override
+    public List<CharacterDto> getAllCharacters() {
+        return charactersRepository.findAll()
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CharacterDto> getCharactersByUserId(Long userId) {
+        return charactersRepository.findByUserId(userId)
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteCharacter(Long characterId) {
+    	/* Character character = charactersRepository.findById(characterId)
+             //   .orElseThrow(() -> new ResourceNotFoundException(
+                        "Character", "characterId", characterId.toString()));
+        charactersRepository.delete(character);*/
+    }
+
+    // Helper mapper
+    private CharacterDto mapToDto(Character character) {
+        CharacterDto dto = new CharacterDto();
+        dto.setUserId(character.getUserId());
+        dto.setCharacterClass(character.getCharacterClass());
+        dto.setCharacterRace(character.getCharacterRace());
+        dto.setLevel(character.getLevel());
+        return dto;
+}
+}

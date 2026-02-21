@@ -1,0 +1,5 @@
+package com.tus.characters.mapper;
+
+public class UserMapper {
+
+}

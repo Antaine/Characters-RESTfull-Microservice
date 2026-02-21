@@ -1,0 +1,67 @@
+package com.tus.characters.controller;
+
+import com.tus.characters.constants.CharacterConstants;
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.dto.ResponseDto;
+import com.tus.characters.service.CharacterService;
+
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping("/characters")
+@RequiredArgsConstructor
+@Validated
+public class CharactersController {
+    private final CharacterService characterService;
+
+    // Create a new character
+    @PostMapping
+    public ResponseEntity<ResponseDto> createCharacter(@Valid @RequestBody CharacterDto characterDto) {
+        characterService.createCharacter(characterDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseDto(CharactersConstants.STATUS_201, CharactersConstants.MESSAGE_201_CREATE));
+    }
+
+    // Get all characters
+    @GetMapping
+    public ResponseEntity<List<CharacterDto>> getAllCharacters() {
+        List<CharacterDto> characters = characterService.getAllCharacters();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(characters);
+    }
+
+    // Get characters by user ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<CharacterDto>> getCharactersByUserId(@PathVariable Long userId) {
+        List<CharacterDto> characters = characterService.getCharactersByUserId(userId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(characters);
+    }
+
+    // Delete a character by ID
+    @DeleteMapping("/{characterId}")
+    public ResponseEntity<ResponseDto> deleteCharacter(@PathVariable Long characterId) {
+        characterService.deleteCharacter(characterId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto(CharactersConstants.STATUS_200, "Character deleted successfully"));
+    }
+}
+
+	
+	@GetMapping("sayHello")
+	public String sayHello() {
+		return "Hello World";
+	}
+}

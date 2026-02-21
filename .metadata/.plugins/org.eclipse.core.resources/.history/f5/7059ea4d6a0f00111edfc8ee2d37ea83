@@ -1,0 +1,24 @@
+package com.tus.characters.mapper;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+
+public class CharacterMapper {
+
+    public static CharacterDto mapToCharacterDto(Character character, CharacterDto characterDto) {
+        characterDto.setUserId(character.getUser().getUserId()); // <-- get ID from User
+        characterDto.setCharacterClass(character.getCharacterClass());
+        characterDto.setCharacterRace(character.getCharacterRace());
+        characterDto.setLevel(character.getLevel());
+        return characterDto;
+    }
+
+    public static Character mapToCharacter(CharacterDto characterDto, Character character, User user) {
+        character.setUser(user); // <-- set the User object, not ID
+        character.setCharacterClass(characterDto.getCharacterClass());
+        character.setCharacterRace(characterDto.getCharacterRace());
+        character.setLevel(characterDto.getLevel());
+        return character;
+    }
+}

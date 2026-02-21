@@ -1,0 +1,9 @@
+package com.tus.characters.entity;
+
+import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.*;
+import lombok.*;
+
+public class Character {
+
+}

@@ -1,0 +1,21 @@
+package com.tus.characters.mapper;
+
+import com.tus.characters.dto.UserDto;
+import com.tus.characters.entity.User;
+
+public class UserMapper {
+
+    public static UserDto mapToUserDto(User user, UserDto userDto) {
+        userDto.setName(user.getUsername());
+        userDto.setEmail(user.getEmail());
+        // Remove password lines if User entity has no password
+        return userDto;
+    }
+
+    public static User mapToUser(UserDto userDto, User user) {
+        user.setUsername(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        // Remove password lines if User entity has no password
+        return user;
+    }
+}

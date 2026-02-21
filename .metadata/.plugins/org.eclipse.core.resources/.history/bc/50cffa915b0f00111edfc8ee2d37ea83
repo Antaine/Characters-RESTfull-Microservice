@@ -1,0 +1,5 @@
+package com.tus.characters.repository;
+
+public class UserRepository {
+
+}

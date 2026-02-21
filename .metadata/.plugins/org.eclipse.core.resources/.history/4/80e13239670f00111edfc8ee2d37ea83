@@ -1,0 +1,23 @@
+package com.tus.characters.mapper;
+
+import com.tus.accounts.dto.UserDto;
+import com.tus.accounts.entity.User;
+
+public class UserMapper {
+
+    public static UserDto mapToUserDto(User user, UserDto userDto) {
+        userDto.setName(user.getName());
+        userDto.setEmail(user.getEmail());
+        userDto.setMobileNumber(user.getMobileNumber());
+        userDto.setPassword(user.getPassword()); // include password if needed
+        return userDto;
+    }
+
+    public static User mapToUser(UserDto userDto, User user) {
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setMobileNumber(userDto.getMobileNumber());
+        user.setPassword(userDto.getPassword()); // include password if needed
+        return user;
+    }
+}

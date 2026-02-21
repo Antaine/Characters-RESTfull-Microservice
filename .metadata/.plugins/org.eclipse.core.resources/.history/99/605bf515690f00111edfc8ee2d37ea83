@@ -1,0 +1,26 @@
+package com.tus.characters.repository;
+
+import jakarta.persistence.*;
+import lombok.*;
+import com.tus.characters.entity.BaseEntity;
+
+@Entity@Table(name = "characters")
+@Getter@Setter@ToString@AllArgsConstructor@NoArgsConstructor
+public class UserRepository extends JpaRepository<User, Long> {
+
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "character_id")
+    private Long characterId;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "character_class", nullable = false)
+    private String characterClass;
+
+    @Column(name = "character_race", nullable = false)
+    private String characterRace;
+
+    @Column(nullable = false)
+    private int level;
+}

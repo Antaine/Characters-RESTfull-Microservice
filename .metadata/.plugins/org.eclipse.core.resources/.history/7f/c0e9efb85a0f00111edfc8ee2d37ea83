@@ -1,0 +1,6 @@
+package com.tus.characters.repository;
+import com.tus.characters.entity.Character;
+public class CharactersRepository extends JpaRepository<Character, Long>{
+
+	List<Character> findByUserId(Long userId);
+}
