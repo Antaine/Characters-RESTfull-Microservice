@@ -1,0 +1,11 @@
+package com.tus.characters.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
+public class CharactersController {
+
+	@GetMapping("sayHello")
+	public String sayHello() {
+		return "Hello World";
+	}
+}
