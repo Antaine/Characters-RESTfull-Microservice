@@ -1,0 +1,27 @@
+package com.tus.characters.service;
+
+import com.tus.characters.dto.CharacterDto;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public interface ICharacterService {
+
+    // Create a new character
+    CharacterDto createCharacter(CharacterDto characterDto);
+
+    // Get all characters
+    List<CharacterDto> getAllCharacters();
+
+    // Get characters by user ID
+    List<CharacterDto> getCharactersByUserId(Long userId);
+
+    // Delete a character by ID
+    void deleteCharacter(Long characterId);
+    
+    List<CharacterDto> getCharactersByDateRange(
+    		LocalDateTime startDate,
+    		LocalDateTime endDate);
+    
+}
+

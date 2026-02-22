@@ -1,0 +1,31 @@
+package com.tus.characters.dto;
+
+import lombok.Data;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+
+@Data
+public class CharacterDto {
+
+    @NotNull(message = "UserId cannot be null")
+    private Long userId;
+
+    @NotEmpty(message = "Character class cannot be null or empty")
+    private String characterClass;
+
+    @NotEmpty(message = "Character race cannot be null or empty")
+    private String characterRace;
+
+    @Min(1)
+    @Max(20)
+    private int level;
+
+    @NotNull(message = "Creation date cannot be null")
+    private LocalDate creationDate;
+}

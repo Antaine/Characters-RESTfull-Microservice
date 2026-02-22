@@ -2,6 +2,8 @@ package com.tus.characters.service;
 
 import com.tus.characters.dto.CharacterDto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ICharacterService {
@@ -18,6 +20,9 @@ public interface ICharacterService {
     // Delete a character by ID
     void deleteCharacter(Long characterId);
     
+    List<CharacterDto> getCharactersByDateRange(
+    		LocalDate startDate,
+    		LocalDate endDate);
     
 }
 

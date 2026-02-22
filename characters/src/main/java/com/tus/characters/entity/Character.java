@@ -2,7 +2,7 @@ package com.tus.characters.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "characters")
@@ -27,8 +27,21 @@ public class Character extends BaseEntity {
     @Column(nullable = false)
     private int level;
 
+    @Column(name = "creation_date", nullable = false)
+    private LocalDate creationDate;
+
     // Many characters belong to one user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    /**
+     * Automatically set creationDate before persisting to DB
+     */
+    @PrePersist
+    public void prePersist() {
+        if (creationDate == null) {
+            creationDate = LocalDate.now();
+        }
+    }
 }

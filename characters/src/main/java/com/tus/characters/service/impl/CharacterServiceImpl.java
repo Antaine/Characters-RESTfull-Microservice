@@ -9,8 +9,10 @@ import com.tus.characters.repository.CharactersRepository;
 import com.tus.characters.repository.UserRepository;
 import com.tus.characters.service.ICharacterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,7 @@ public class CharacterServiceImpl implements ICharacterService {
                         "User", "userId", characterDto.getUserId().toString()));
 
         Character character = CharacterMapper.mapToCharacter(characterDto, user);
+        // creationDate will be automatically set by @PrePersist
         Character savedCharacter = charactersRepository.save(character);
 
         return CharacterMapper.mapToCharacterDto(savedCharacter);
@@ -60,5 +63,23 @@ public class CharacterServiceImpl implements ICharacterService {
                         "Character", "characterId", characterId.toString()));
 
         charactersRepository.delete(character);
+    }
+
+    // Updated to match LocalDate in entity and optional pagination
+    @Override
+    public List<CharacterDto> getCharactersByDateRange(LocalDate startDate, LocalDate endDate) {
+        return charactersRepository.findByCreationDateBetween(startDate, endDate)
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
+    }
+
+    // Optional: Paginated version
+    public List<CharacterDto> getCharactersByDateRangePaginated(LocalDate startDate, LocalDate endDate, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return charactersRepository.findByCreationDateBetween(startDate, endDate, pageable)
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
     }
 }

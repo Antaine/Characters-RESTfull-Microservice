@@ -1,0 +1,65 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+import com.tus.characters.exceptions.ResourceNotFoundException;
+import com.tus.characters.mapper.CharacterMapper;
+import com.tus.characters.repository.CharactersRepository;
+import com.tus.characters.repository.UserRepository;
+import com.tus.characters.service.ICharacterService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.time.LocalDate;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CharacterServiceImpl implements ICharacterService {
+
+    private final CharactersRepository charactersRepository;
+    private final UserRepository userRepository;
+
+    @Override
+    public CharacterDto createCharacter(CharacterDto characterDto) {
+        User user = userRepository.findById(characterDto.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User", "userId", characterDto.getUserId().toString()));
+
+        Character character = CharacterMapper.mapToCharacter(characterDto, user);
+        Character savedCharacter = charactersRepository.save(character);
+
+        return CharacterMapper.mapToCharacterDto(savedCharacter);
+    }
+
+    @Override
+    public List<CharacterDto> getAllCharacters() {
+        return charactersRepository.findAll()
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CharacterDto> getCharactersByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User", "userId", userId.toString()));
+
+        return charactersRepository.findByUser(user)
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteCharacter(Long characterId) {
+        Character character = charactersRepository.findById(characterId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Character", "characterId", characterId.toString()));
+
+        charactersRepository.delete(character);
+    }
+}

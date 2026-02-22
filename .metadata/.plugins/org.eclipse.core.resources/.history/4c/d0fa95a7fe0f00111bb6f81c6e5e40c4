@@ -1,0 +1,32 @@
+package com.tus.characters.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name="characters")
+public class Character {
+
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long characterId;
+
+private String characterClass;
+
+private String characterRace;
+
+private Integer level;
+
+@Column(name="creation_date", nullable = false)
+private LocalDate creationDate;
+
+@ManyToOne
+@JoinColumn(name="user_id")
+private User user;
+
+@PrePersist
+public void setCreationDate() {
+    this.creationDate = LocalDate.now();
+}
+}
