@@ -29,4 +29,14 @@ public class BaseEntity {
     @LastModifiedBy
     @Column(insertable = false)
     private String updatedBy;
+    
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

@@ -82,4 +82,46 @@ public class CharacterServiceImpl implements ICharacterService {
                 .map(CharacterMapper::mapToCharacterDto)
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    public void updateCharacter(Long characterId, CharacterDto characterDto){
+
+        Character existingCharacter =
+                charactersRepository.findById(characterId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Character",
+                                "characterId",
+                                characterId.toString()));
+
+        User user = userRepository.findById(characterDto.getUserId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User",
+                                "userId",
+                                characterDto.getUserId().toString()));
+
+        // Update only editable fields
+        existingCharacter.setCharacterClass(characterDto.getCharacterClass());
+        existingCharacter.setCharacterRace(characterDto.getCharacterRace());
+        existingCharacter.setLevel(characterDto.getLevel());
+        existingCharacter.setUser(user);
+
+        // DO NOT update creationDate
+
+        charactersRepository.save(existingCharacter);
+    }
+    
+    @Override
+    public CharacterDto getCharacterById(Long characterId){
+
+        Character character =
+                charactersRepository.findById(characterId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Character",
+                        "characterId",
+                        characterId.toString()));
+
+        return CharacterMapper.mapToCharacterDto(character);
+    }
 }

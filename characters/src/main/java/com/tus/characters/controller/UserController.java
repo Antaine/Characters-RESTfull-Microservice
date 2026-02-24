@@ -2,7 +2,14 @@ package com.tus.characters.controller;
 
 import com.tus.characters.entity.User;
 import com.tus.characters.service.impl.UserServiceImpl;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,4 +28,11 @@ public class UserController {
     public User getUser(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
+    
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Character> characters = new ArrayList<>();
 }

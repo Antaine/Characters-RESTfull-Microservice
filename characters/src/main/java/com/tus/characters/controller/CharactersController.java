@@ -70,6 +70,28 @@ public class CharactersController {
         return ResponseEntity.ok(
                 characterService.getCharactersByDateRange(startDate, endDate));
     }
+    
+    @PutMapping("/{characterId}")
+    public ResponseEntity<ResponseDto> updateCharacter(
+            @PathVariable Long characterId,
+            @Valid @RequestBody CharacterDto characterDto) {
+
+        characterService.updateCharacter(characterId, characterDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto(
+                        CharacterConstants.STATUS_200,
+                        "Character updated successfully"));
+    }
+    
+    @GetMapping("/{characterId}")
+    public ResponseEntity<CharacterDto> getCharacterById(
+            @PathVariable Long characterId){
+
+        return ResponseEntity.ok(
+                characterService.getCharacterById(characterId));
+    }
 
 	
 	@GetMapping("sayHello")

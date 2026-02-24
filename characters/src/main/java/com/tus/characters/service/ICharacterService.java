@@ -24,5 +24,8 @@ public interface ICharacterService {
     		LocalDate startDate,
     		LocalDate endDate);
     
+    void updateCharacter(Long characterId, CharacterDto characterDto);
+    
+    CharacterDto getCharacterById(Long characterId);
 }
 

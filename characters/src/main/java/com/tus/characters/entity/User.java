@@ -37,4 +37,6 @@ public class User extends BaseEntity {
     // One user can have many characters
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Character> characters;
+    
+    
 }
