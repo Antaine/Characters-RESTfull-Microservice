@@ -9,6 +9,8 @@ import com.tus.characters.repository.CharactersRepository;
 import com.tus.characters.repository.UserRepository;
 import com.tus.characters.service.ICharacterService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -123,5 +125,22 @@ public class CharacterServiceImpl implements ICharacterService {
                         characterId.toString()));
 
         return CharacterMapper.mapToCharacterDto(character);
+    }
+    
+    @Override
+    public Page<CharacterDto> getCharactersPaginated(int page, int size) {
+        Page<Character> charactersPage = charactersRepository.findAll(PageRequest.of(page, size));
+
+        // Convert entities to DTOs while keeping pagination info
+        return charactersPage.map(CharacterMapper::mapToCharacterDto);
+    }
+
+    @Override
+    public Page<CharacterDto> getCharactersPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Character> charactersPage = charactersRepository.findAll(pageable);
+
+        // Map entities to DTOs
+        return charactersPage.map(CharacterMapper::mapToCharacterDto);
     }
 }

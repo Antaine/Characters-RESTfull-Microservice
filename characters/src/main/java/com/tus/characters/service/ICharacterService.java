@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface ICharacterService {
 
     // Create a new character
@@ -27,5 +29,8 @@ public interface ICharacterService {
     void updateCharacter(Long characterId, CharacterDto characterDto);
     
     CharacterDto getCharacterById(Long characterId);
+    
+    Page<CharacterDto> getCharactersPaginated(int page, int size);
+    Page<CharacterDto> getCharactersPage(int page, int size);
 }
 

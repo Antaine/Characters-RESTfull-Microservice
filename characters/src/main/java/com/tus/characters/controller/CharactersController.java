@@ -8,6 +8,7 @@ import com.tus.characters.service.impl.CharacterServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,9 @@ import jakarta.validation.Valid;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/characters")  // <--- important
@@ -91,6 +94,31 @@ public class CharactersController {
 
         return ResponseEntity.ok(
                 characterService.getCharacterById(characterId));
+    }
+    
+   /* @GetMapping("/page")
+    public ResponseEntity<Page<CharacterDto>> getCharactersPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        return ResponseEntity.ok(characterService.getCharactersPaginated(page, size));
+    }*/
+    
+    @GetMapping("/page")
+    public ResponseEntity<Map<String, Object>> getCharactersPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Page<CharacterDto> pageCharacters = characterService.getCharactersPage(page, size);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", pageCharacters.getContent());
+        response.put("pageNumber", pageCharacters.getNumber());
+        response.put("pageSize", pageCharacters.getSize());
+        response.put("totalElements", pageCharacters.getTotalElements());
+        response.put("totalPages", pageCharacters.getTotalPages());
+
+        return ResponseEntity.ok(response);
     }
 
 	

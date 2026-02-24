@@ -1,0 +1,137 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+import com.tus.characters.exceptions.ResourceNotFoundException;
+import com.tus.characters.mapper.CharacterMapper;
+import com.tus.characters.repository.CharactersRepository;
+import com.tus.characters.repository.UserRepository;
+import com.tus.characters.service.ICharacterService;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CharacterServiceImpl implements ICharacterService {
+
+    private final CharactersRepository charactersRepository;
+    private final UserRepository userRepository;
+
+    @Override
+    public CharacterDto createCharacter(CharacterDto characterDto) {
+        User user = userRepository.findById(characterDto.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User", "userId", characterDto.getUserId().toString()));
+
+        Character character = CharacterMapper.mapToCharacter(characterDto, user);
+        // creationDate will be automatically set by @PrePersist
+        Character savedCharacter = charactersRepository.save(character);
+
+        return CharacterMapper.mapToCharacterDto(savedCharacter);
+    }
+
+    @Override
+    public List<CharacterDto> getAllCharacters() {
+        return charactersRepository.findAll()
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CharacterDto> getCharactersByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User", "userId", userId.toString()));
+
+        return charactersRepository.findByUser(user)
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteCharacter(Long characterId) {
+        Character character = charactersRepository.findById(characterId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Character", "characterId", characterId.toString()));
+
+        charactersRepository.delete(character);
+    }
+
+    // Updated to match LocalDate in entity and optional pagination
+    @Override
+    public List<CharacterDto> getCharactersByDateRange(LocalDate startDate, LocalDate endDate) {
+        return charactersRepository.findByCreationDateBetween(startDate, endDate)
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
+    }
+
+    // Optional: Paginated version
+    public List<CharacterDto> getCharactersByDateRangePaginated(LocalDate startDate, LocalDate endDate, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return charactersRepository.findByCreationDateBetween(startDate, endDate, pageable)
+                .stream()
+                .map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public void updateCharacter(Long characterId, CharacterDto characterDto){
+
+        Character existingCharacter =
+                charactersRepository.findById(characterId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Character",
+                                "characterId",
+                                characterId.toString()));
+
+        User user = userRepository.findById(characterDto.getUserId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "User",
+                                "userId",
+                                characterDto.getUserId().toString()));
+
+        // Update only editable fields
+        existingCharacter.setCharacterClass(characterDto.getCharacterClass());
+        existingCharacter.setCharacterRace(characterDto.getCharacterRace());
+        existingCharacter.setLevel(characterDto.getLevel());
+        existingCharacter.setUser(user);
+
+        // DO NOT update creationDate
+
+        charactersRepository.save(existingCharacter);
+    }
+    
+    @Override
+    public CharacterDto getCharacterById(Long characterId){
+
+        Character character =
+                charactersRepository.findById(characterId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Character",
+                        "characterId",
+                        characterId.toString()));
+
+        return CharacterMapper.mapToCharacterDto(character);
+    }
+    
+    @Override
+    public Page<CharacterDto> getCharactersPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Character> charactersPage = charactersRepository.findAll(pageable);
+
+        return charactersPage.map(CharacterMapper::mapToCharacterDto);
+    }
+}
