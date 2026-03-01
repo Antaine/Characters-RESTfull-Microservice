@@ -1,0 +1,5 @@
+package com.tus.characters.service.impl;
+
+public class UserServiceImplTest {
+
+}

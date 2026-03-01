@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
@@ -141,6 +142,38 @@ public class CharacterServiceImpl implements ICharacterService {
         Page<Character> charactersPage = charactersRepository.findAll(pageable);
 
         // Map entities to DTOs
+        return charactersPage.map(CharacterMapper::mapToCharacterDto);
+    }
+    
+    private static final List<String> ALLOWED_SORT_FIELDS =
+            List.of("characterId", "characterClass", "characterRace", "level", "creationDate");
+
+    @Override
+    public Page<CharacterDto> getCharactersPage(int page,
+                                                int size,
+                                                String sortBy,
+                                                String direction) {
+
+        // Validate sort field
+        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
+            throw new IllegalArgumentException("Invalid sort field: " + sortBy);
+        }
+
+        // Validate direction
+        if (!direction.equalsIgnoreCase("asc") &&
+            !direction.equalsIgnoreCase("desc")) {
+            throw new IllegalArgumentException("Invalid sort direction: " + direction);
+        }
+
+        Sort sort = direction.equalsIgnoreCase("desc") ?
+                Sort.by(sortBy).descending() :
+                Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Character> charactersPage =
+                charactersRepository.findAll(pageable);
+
         return charactersPage.map(CharacterMapper::mapToCharacterDto);
     }
 }

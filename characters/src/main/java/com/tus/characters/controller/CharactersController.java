@@ -3,8 +3,9 @@ package com.tus.characters.controller;
 import com.tus.characters.constants.CharacterConstants;
 import com.tus.characters.dto.CharacterDto;
 import com.tus.characters.dto.ResponseDto;
-import com.tus.characters.service.impl.CharacterServiceImpl;
+import com.tus.characters.service.ICharacterService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -27,9 +28,10 @@ import java.util.Map;
 @RequestMapping("/api/characters")  // <--- important
 @RequiredArgsConstructor
 public class CharactersController {
-    private final CharacterServiceImpl characterService;
+	private final ICharacterService characterService;
 
     // Create a new character
+	@Operation(summary = "Create new character")
     @PostMapping
     public ResponseEntity<ResponseDto> createCharacter(@Valid @RequestBody CharacterDto characterDto) {
         characterService.createCharacter(characterDto);
@@ -73,7 +75,7 @@ public class CharactersController {
         return ResponseEntity.ok(
                 characterService.getCharactersByDateRange(startDate, endDate));
     }
-    
+    @Operation(summary = "Update character")
     @PutMapping("/{characterId}")
     public ResponseEntity<ResponseDto> updateCharacter(
             @PathVariable Long characterId,
@@ -103,13 +105,16 @@ public class CharactersController {
 
         return ResponseEntity.ok(characterService.getCharactersPaginated(page, size));
     }*/
-    
+    @Operation(summary = "Get paginated characters")
     @GetMapping("/page")
     public ResponseEntity<Map<String, Object>> getCharactersPage(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "characterId") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
 
-        Page<CharacterDto> pageCharacters = characterService.getCharactersPage(page, size);
+        Page<CharacterDto> pageCharacters =
+                characterService.getCharactersPage(page, size, sortBy, direction);
 
         Map<String, Object> response = new HashMap<>();
         response.put("content", pageCharacters.getContent());

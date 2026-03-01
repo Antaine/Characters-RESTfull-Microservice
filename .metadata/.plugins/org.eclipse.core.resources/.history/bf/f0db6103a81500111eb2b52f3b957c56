@@ -1,0 +1,70 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.entity.Character;
+import com.tus.characters.repository.CharactersRepository;
+import com.tus.characters.service.impl.CharacterServiceImpl;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class CharacterServiceImplTest {
+
+    @Mock
+    private CharactersRepository characterRepository;
+
+    @InjectMocks
+    private CharacterServiceImpl characterService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testGetCharacterById_Success() {
+
+        Character character = new Character();
+        character.setCharacterId(1L);
+        character.setLevel(10);
+
+        when(characterRepository.findById(1L))
+                .thenReturn(Optional.of(character));
+
+        CharacterDto result =
+                characterService.getCharacterById(1L);
+
+        assertNotNull(result);
+        assertEquals(10, result.getLevel());
+    }
+
+    @Test
+    void testGetCharactersPage() {
+
+        Character character = new Character();
+        character.setCharacterId(1L);
+        character.setLevel(5);
+
+        List<Character> list = List.of(character);
+
+        Page<Character> page =
+                new PageImpl<>(list);
+
+        when(characterRepository.findAll(any(Pageable.class)))
+                .thenReturn(page);
+
+        Page<CharacterDto> result =
+                characterService.getCharactersPage(0,5,"characterId","asc");
+
+        assertEquals(1, result.getTotalElements());
+    }
+}

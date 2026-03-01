@@ -32,5 +32,6 @@ public interface ICharacterService {
     
     Page<CharacterDto> getCharactersPaginated(int page, int size);
     Page<CharacterDto> getCharactersPage(int page, int size);
+    Page<CharacterDto> getCharactersPage(int page,int size,String sortBy,String direction);
 }
 
