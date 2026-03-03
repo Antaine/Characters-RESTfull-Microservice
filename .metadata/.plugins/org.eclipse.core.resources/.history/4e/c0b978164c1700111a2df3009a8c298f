@@ -1,0 +1,71 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.entity.Character;
+import com.tus.characters.repository.CharactersRepository;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+//Do not load Spring
+@ExtendWith(MockitoExtension.class)
+class CharacterServiceImplTest {
+
+	//Generate Fake Database
+	@Mock
+	private CharactersRepository characterRepository;
+	//Add to Service
+	@InjectMocks
+	private CharacterServiceImpl characterService;
+
+	@Test
+	void testGetCharacterById_Success() {
+		
+		//Create Character
+		Character character = new Character();
+		character.setCharacterId(1L);
+		character.setLevel(10);
+		//Simulate Service & Get Result
+		when(characterRepository.findById(1L)).thenReturn(Optional.of(character));
+		CharacterDto result = characterService.getCharacterById(1L);
+		//Check Object is not null
+		assertNotNull(result);
+		assertEquals(10, result.getLevel());
+
+		verify(characterRepository, times(1)).findById(1L);
+	}
+
+	@Test
+	void testGetCharactersPage() {
+
+		Character character = new Character();
+		character.setCharacterId(1L);
+		character.setLevel(5);
+
+		List<Character> list = List.of(character);
+
+		Page<Character> page = new PageImpl<>(list);
+
+		when(characterRepository.findAll(any(Pageable.class))).thenReturn(page);
+
+		Page<CharacterDto> result = characterService.getCharactersPage(0, 5, "characterId", "asc");
+
+		assertEquals(1, result.getTotalElements());
+
+		verify(characterRepository, times(1)).findAll(any(Pageable.class));
+	}
+}

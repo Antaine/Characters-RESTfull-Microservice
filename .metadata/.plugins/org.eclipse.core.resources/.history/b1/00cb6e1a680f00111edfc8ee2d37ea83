@@ -1,5 +1,0 @@
-package com.tus.characters.audit;
-
-public class AuditAwareImpl {
-
-}

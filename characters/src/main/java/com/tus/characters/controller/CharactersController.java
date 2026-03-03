@@ -4,22 +4,15 @@ import com.tus.characters.constants.CharacterConstants;
 import com.tus.characters.dto.CharacterDto;
 import com.tus.characters.dto.ResponseDto;
 import com.tus.characters.service.ICharacterService;
-
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import jakarta.validation.Valid;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,13 +91,6 @@ public class CharactersController {
                 characterService.getCharacterById(characterId));
     }
     
-   /* @GetMapping("/page")
-    public ResponseEntity<Page<CharacterDto>> getCharactersPaginated(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-
-        return ResponseEntity.ok(characterService.getCharactersPaginated(page, size));
-    }*/
     @Operation(summary = "Get paginated characters")
     @GetMapping("/page")
     public ResponseEntity<Map<String, Object>> getCharactersPage(
@@ -125,10 +111,4 @@ public class CharactersController {
 
         return ResponseEntity.ok(response);
     }
-
-	
-	@GetMapping("sayHello")
-	public String sayHello() {
-		return "Hello World";
-	}
 }

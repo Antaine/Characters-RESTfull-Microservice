@@ -10,33 +10,31 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-@Getter @Setter @ToString
+/**
+ * Super for all Entities being created
+ * Contains basic variables the User and Character Entities will need.
+ * Contains Entity Listeners for Spring Data auditing
+ */
+@MappedSuperclass@EntityListeners(AuditingEntityListener.class)@Getter @Setter @ToString
 public class BaseEntity {
-    @CreatedDate
-    @Column(updatable = false)
+	//Unchangeable Variables
+    @CreatedDate@Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
-
-    @CreatedBy
-    @Column(updatable = false)
+    
+    @CreatedBy@Column(name = "created_by", updatable = false, nullable = false, length = 50)
     private String createdBy;
 
-    @LastModifiedDate
-    @Column(insertable = false)
+    //Modifiable Variables
+    @LastModifiedDate@Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @LastModifiedBy
-    @Column(insertable = false)
+    @LastModifiedBy@Column(name = "updated_by",length = 50)
     private String updatedBy;
     
+    //Runs before data is inserted into database
     @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+    protected void onCreate() {createdAt = LocalDateTime.now();}
 
     @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    protected void onUpdate() {updatedAt = LocalDateTime.now();}
 }

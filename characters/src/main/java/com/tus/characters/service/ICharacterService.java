@@ -3,35 +3,28 @@ package com.tus.characters.service;
 import com.tus.characters.dto.CharacterDto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 
 public interface ICharacterService {
 
-    // Create a new character
+	//Create New Character
     CharacterDto createCharacter(CharacterDto characterDto);
-
-    // Get all characters
+    //Get All Characters
     List<CharacterDto> getAllCharacters();
-
-    // Get characters by user ID
+    //Get User Characters
     List<CharacterDto> getCharactersByUserId(Long userId);
-
-    // Delete a character by ID
+    //Delete Character
     void deleteCharacter(Long characterId);
-    
-    List<CharacterDto> getCharactersByDateRange(
-    		LocalDate startDate,
-    		LocalDate endDate);
-    
-    void updateCharacter(Long characterId, CharacterDto characterDto);
-    
+    //Get Character by Date Range
+    List<CharacterDto> getCharactersByDateRange(LocalDate startDate,LocalDate endDate);
+    //Update Character
+    void updateCharacter(Long characterId,CharacterDto characterDto);
+    //Get Character by Character ID
     CharacterDto getCharacterById(Long characterId);
-    
-    Page<CharacterDto> getCharactersPaginated(int page, int size);
-    Page<CharacterDto> getCharactersPage(int page, int size);
+    //Page Options
+    Page<CharacterDto> getCharactersPage(int page,int size);
+    //Sorted Page
     Page<CharacterDto> getCharactersPage(int page,int size,String sortBy,String direction);
 }
-

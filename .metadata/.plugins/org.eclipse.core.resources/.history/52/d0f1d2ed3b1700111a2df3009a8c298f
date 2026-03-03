@@ -1,0 +1,25 @@
+package com.tus.characters.mapper;
+
+import com.tus.characters.dto.UserDto;
+import com.tus.characters.entity.User;
+
+/**
+ * Converts User Entity to Data Transfer Object and vice versa
+ */
+public class UserMapper {
+
+	//Conver User to DTO
+	 public static UserDto mapToUserDto(User user, UserDto userDto) {
+	        userDto.setName(user.getUsername());
+	        userDto.setEmail(user.getEmail());
+	        userDto.setPassword(user.getPassword()); // include password if needed
+	        return userDto;
+	    }
+
+	    public static User mapToUser(UserDto userDto, User user) {
+	        user.setUsername(userDto.getName());
+	        user.setEmail(userDto.getEmail());
+	        user.setPassword(userDto.getPassword()); // include password if needed
+	        return user;
+	    }
+}

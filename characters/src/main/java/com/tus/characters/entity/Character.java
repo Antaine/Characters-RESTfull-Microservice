@@ -4,44 +4,36 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "characters")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+/**
+ * Simple Character Entity that is mapped to a User Entity
+ * Many Characters to One User reality
+ * Lazy FetchType to only load object when need, e.g. .getUser()
+ * Includes Character class, race, level and creation date
+ */
+@Entity@Table(name = "characters")@Getter@Setter@NoArgsConstructor@AllArgsConstructor@ToString
 public class Character extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "character_id")
+	//Primary Key
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)@Column(name = "character_id")
     private Long characterId;
-
+    
     @Column(name = "character_class", nullable = false, length = 50)
     private String characterClass;
 
     @Column(name = "character_race", nullable = false, length = 50)
     private String characterRace;
-
+    
     @Column(nullable = false)
     private int level;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;
 
-    // Many characters belong to one user
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    // Many characters belong to one user, Foreign KEY to User table, Loaded only when needed
+    @ManyToOne(fetch = FetchType.LAZY)@JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    /**
-     * Automatically set creationDate before persisting to DB
-     */
+   //Sets Creation Date to Today
     @PrePersist
-    public void prePersist() {
-        if (creationDate == null) {
-            creationDate = LocalDate.now();
-        }
-    }
+    public void prePersist() {if (creationDate == null) {creationDate = LocalDate.now();}}
 }

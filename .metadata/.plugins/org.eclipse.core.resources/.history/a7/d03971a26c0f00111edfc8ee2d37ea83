@@ -1,5 +1,0 @@
-package com.tus.characters.service.impl;
-
-public class IUserServiceImpl {
-
-}

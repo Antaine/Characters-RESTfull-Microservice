@@ -1,26 +1,27 @@
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int AUTO_INCREMENT  PRIMARY KEY,
-  `username` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-   password VARCHAR(50) NOT NULL,
-  `mobile_number` varchar(20),
-  `created_at` date NOT NULL,
-  `created_by` varchar(20) NOT NULL,
-  `updated_at` date DEFAULT NULL,
-  `updated_by` varchar(20) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS users (
+  user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  mobile_number VARCHAR(10),
+  created_at TIMESTAMP NOT NULL,
+  created_by VARCHAR(50) NOT NULL,
+  updated_at TIMESTAMP NULL,
+  updated_by VARCHAR(50) NULL
 );
 
 CREATE TABLE IF NOT EXISTS characters (
- user_id int NOT NULL,
- character_id int AUTO_INCREMENT PRIMARY KEY,
- character_class varchar(50) NOT NULL,
- character_race varchar(50) NOT NULL,
- level int NOT NULL,
- created_at date NOT NULL,
- created_by varchar(20) NOT NULL,
- updated_at date DEFAULT NULL,
- updated_by varchar(20) DEFAULT NULL,
- CONSTRAINT fk_user FOREIGN KEY (user_id)
- REFERENCES users(user_id)
- ON DELETE CASCADE
+  character_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  character_class VARCHAR(50) NOT NULL,
+  character_race VARCHAR(50) NOT NULL,
+  level INT NOT NULL,
+  creation_date DATE NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  created_by VARCHAR(50) NOT NULL,
+  updated_at TIMESTAMP NULL,
+  updated_by VARCHAR(50) NULL,
+  CONSTRAINT fk_user FOREIGN KEY (user_id)
+    REFERENCES users(user_id)
+    ON DELETE CASCADE
 );

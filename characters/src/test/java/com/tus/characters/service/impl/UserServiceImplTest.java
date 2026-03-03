@@ -1,0 +1,49 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.entity.User;
+import com.tus.characters.repository.UserRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import java.util.Optional;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
+class UserServiceImplTest {
+
+	//Generate Fake Database
+	@Mock
+	private UserRepository userRepository;
+	//Add to Service
+	@InjectMocks
+	private UserServiceImpl userService;
+
+	@Test
+	void testGetUserById_Success() {
+		//Create User
+		User user = new User();
+		user.setUserId(1L);
+		user.setEmail("test@test.com");
+		//Simulate Service & Get Result
+		when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+		User result = userService.getUserById(1L);
+		//Check Object is not null
+		assertNotNull(result);
+		assertEquals("test@test.com", result.getEmail());
+		//Verify it was called once
+		verify(userRepository, times(1)).findById(1L);
+	}
+
+	@Test
+	void testGetUserById_NotFound() {
+		//Simulate no user in database
+		when(userRepository.findById(1L)).thenReturn(Optional.empty());
+		//Check for Runtime Exception
+		assertThrows(RuntimeException.class, () -> userService.getUserById(1L));
+		//Verify it was called once
+		verify(userRepository, times(1)).findById(1L);
+	}
+}

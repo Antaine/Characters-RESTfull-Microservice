@@ -3,10 +3,15 @@ package com.tus.characters.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
-@AllArgsConstructor
+/**
+ * Basic variables for status codes and status messages
+ * Used for Success Responses
+ *  */
+@Data@AllArgsConstructor
 public class ResponseDto {
-
-    private String statusCode; // e.g., "200" or "201"
-    private String statusMsg;  // e.g., "User created successfully"
+	
+	// e.g., "200" or "201"
+    private String statusCode; 
+    // e.g., "User created successfully"
+    private String statusMsg;  
 }

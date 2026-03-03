@@ -1,5 +1,0 @@
-package com.tus.characters.exceptions;
-
-public class ResourceNotFoundException {
-
-}

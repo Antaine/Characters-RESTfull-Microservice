@@ -9,7 +9,6 @@ import com.tus.characters.repository.CharactersRepository;
 import com.tus.characters.repository.UserRepository;
 import com.tus.characters.service.ICharacterService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,26 +18,28 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
+@Service@RequiredArgsConstructor
 public class CharacterServiceImpl implements ICharacterService {
 
+	//Constants
     private final CharactersRepository charactersRepository;
     private final UserRepository userRepository;
 
+    private static final List<String> ALLOWED_SORT_FIELDS =
+            List.of("characterId", "characterClass", "characterRace", "level", "creationDate");
+
+    //Create Character
     @Override
     public CharacterDto createCharacter(CharacterDto characterDto) {
         User user = userRepository.findById(characterDto.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "User", "userId", characterDto.getUserId().toString()));
+                .orElseThrow(() ->new ResourceNotFoundException("User", "userId",characterDto.getUserId().toString()));
 
         Character character = CharacterMapper.mapToCharacter(characterDto, user);
-        // creationDate will be automatically set by @PrePersist
         Character savedCharacter = charactersRepository.save(character);
-
         return CharacterMapper.mapToCharacterDto(savedCharacter);
     }
 
+    //Return all Characters
     @Override
     public List<CharacterDto> getAllCharacters() {
         return charactersRepository.findAll()
@@ -50,8 +51,7 @@ public class CharacterServiceImpl implements ICharacterService {
     @Override
     public List<CharacterDto> getCharactersByUserId(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "User", "userId", userId.toString()));
+        		.orElseThrow(() ->new ResourceNotFoundException("User", "userId",userId.toString()));
 
         return charactersRepository.findByUser(user)
                 .stream()
@@ -59,121 +59,69 @@ public class CharacterServiceImpl implements ICharacterService {
                 .collect(Collectors.toList());
     }
 
+    //Delete Character
     @Override
     public void deleteCharacter(Long characterId) {
         Character character = charactersRepository.findById(characterId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Character", "characterId", characterId.toString()));
-
+        		.orElseThrow(() ->new ResourceNotFoundException("Character","characterId",characterId.toString()));
         charactersRepository.delete(character);
     }
 
-    // Updated to match LocalDate in entity and optional pagination
+    //Get Characters In sorted Date Range
     @Override
-    public List<CharacterDto> getCharactersByDateRange(LocalDate startDate, LocalDate endDate) {
-        return charactersRepository.findByCreationDateBetween(startDate, endDate)
+    public List<CharacterDto> getCharactersByDateRange(LocalDate startDate,LocalDate endDate) {
+        return charactersRepository
+                .findByCreationDateBetween(startDate, endDate)
                 .stream()
                 .map(CharacterMapper::mapToCharacterDto)
                 .collect(Collectors.toList());
     }
 
-    // Optional: Paginated version
-    public List<CharacterDto> getCharactersByDateRangePaginated(LocalDate startDate, LocalDate endDate, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return charactersRepository.findByCreationDateBetween(startDate, endDate, pageable)
-                .stream()
-                .map(CharacterMapper::mapToCharacterDto)
-                .collect(Collectors.toList());
-    }
-    
+    //Update Character
     @Override
-    public void updateCharacter(Long characterId, CharacterDto characterDto){
+    public void updateCharacter(Long characterId,CharacterDto characterDto) {
 
         Character existingCharacter =
                 charactersRepository.findById(characterId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Character",
-                                "characterId",
-                                characterId.toString()));
+                .orElseThrow(() ->new ResourceNotFoundException("Character","characterId",characterId.toString()));
 
         User user = userRepository.findById(characterDto.getUserId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "User",
-                                "userId",
-                                characterDto.getUserId().toString()));
+                .orElseThrow(() ->new ResourceNotFoundException("User","userId",characterDto.getUserId().toString()));
 
-        // Update only editable fields
         existingCharacter.setCharacterClass(characterDto.getCharacterClass());
         existingCharacter.setCharacterRace(characterDto.getCharacterRace());
         existingCharacter.setLevel(characterDto.getLevel());
         existingCharacter.setUser(user);
-
-        // DO NOT update creationDate
-
         charactersRepository.save(existingCharacter);
     }
-    
-    @Override
-    public CharacterDto getCharacterById(Long characterId){
 
+    //Get Character by Character ID
+    @Override
+    public CharacterDto getCharacterById(Long characterId) {
         Character character =
                 charactersRepository.findById(characterId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Character",
-                        "characterId",
-                        characterId.toString()));
-
+                .orElseThrow(() ->new ResourceNotFoundException("Character","characterId",characterId.toString()));
         return CharacterMapper.mapToCharacterDto(character);
     }
-    
-    @Override
-    public Page<CharacterDto> getCharactersPaginated(int page, int size) {
-        Page<Character> charactersPage = charactersRepository.findAll(PageRequest.of(page, size));
 
-        // Convert entities to DTOs while keeping pagination info
-        return charactersPage.map(CharacterMapper::mapToCharacterDto);
-    }
-
+    //Get Page of Characters
     @Override
-    public Page<CharacterDto> getCharactersPage(int page, int size) {
+    public Page<CharacterDto> getCharactersPage(int page,int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Character> charactersPage = charactersRepository.findAll(pageable);
-
-        // Map entities to DTOs
-        return charactersPage.map(CharacterMapper::mapToCharacterDto);
+        return charactersRepository.findAll(pageable).map(CharacterMapper::mapToCharacterDto);
     }
-    
-    private static final List<String> ALLOWED_SORT_FIELDS =
-            List.of("characterId", "characterClass", "characterRace", "level", "creationDate");
 
+    //
     @Override
-    public Page<CharacterDto> getCharactersPage(int page,
-                                                int size,
-                                                String sortBy,
-                                                String direction) {
+    public Page<CharacterDto> getCharactersPage(int page,int size,String sortBy,String direction) {
 
-        // Validate sort field
-        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
-            throw new IllegalArgumentException("Invalid sort field: " + sortBy);
-        }
+        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {throw new IllegalArgumentException("Invalid sort field: " + sortBy);}
 
-        // Validate direction
-        if (!direction.equalsIgnoreCase("asc") &&
-            !direction.equalsIgnoreCase("desc")) {
+        if (!direction.equalsIgnoreCase("asc") &&!direction.equalsIgnoreCase("desc")) {
             throw new IllegalArgumentException("Invalid sort direction: " + direction);
         }
-
-        Sort sort = direction.equalsIgnoreCase("desc") ?
-                Sort.by(sortBy).descending() :
-                Sort.by(sortBy).ascending();
-
+        Sort sort = direction.equalsIgnoreCase("desc")? Sort.by(sortBy).descending(): Sort.by(sortBy).ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
-
-        Page<Character> charactersPage =
-                charactersRepository.findAll(pageable);
-
-        return charactersPage.map(CharacterMapper::mapToCharacterDto);
+        return charactersRepository.findAll(pageable).map(CharacterMapper::mapToCharacterDto);
     }
 }

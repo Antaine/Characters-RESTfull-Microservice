@@ -7,20 +7,28 @@ import com.tus.characters.service.IUserService;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
-@RequiredArgsConstructor
+/**
+ * Implements inherited methods from IUserService
+ * Basic CRUD Functionality and validation
+ */
+@Service@RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
     private final UserRepository userRepository;
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
+    public User createUser(User user) {return userRepository.save(user);}
 
     @Override
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with userId: " + userId));
+            .orElseThrow(() ->new RuntimeException("User not found with userId: " + userId));
+    }
+
+    public void deleteUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User not found with userId: " + userId);
+        }
+        userRepository.deleteById(userId);
     }
 }

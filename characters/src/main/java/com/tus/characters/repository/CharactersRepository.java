@@ -9,6 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * JPA Repository grants automatic methods such as save(), delete()
+ * Custom method to find username added
+ * List<Character> findByUser(User user); becomes SELECT * FROM characters WHERE user_id = ?
+ * Pagination handled here.
+ */
 public interface CharactersRepository extends JpaRepository<Character, Long> {
 
     List<Character> findByUser(User user);

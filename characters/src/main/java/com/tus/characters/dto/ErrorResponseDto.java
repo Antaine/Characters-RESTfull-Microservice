@@ -5,12 +5,26 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 
-@Data
-@AllArgsConstructor
+/**
+ * Structures Error Message Responses
+ * Returns an JSON format useful information
+ * Example
+ * {
+ * 		"apiPath": "/api/users",
+ *		"errorCode": "400",
+ * 		"errorMessage": "Email invalid",
+ *		"errorTime": "2026-03-03T12:00"
+	}
+ */
+@Data@AllArgsConstructor
 public class ErrorResponseDto {
 
-    private String apiPath;           // The endpoint that caused the error
-    private HttpStatus errorCode;     // HTTP status code
-    private String errorMessage;      // Detailed error message
-    private LocalDateTime errorTime;  // Timestamp of the error
+	// The endpoint that caused the error
+    private String apiPath;  
+    // HTTP status code
+    private HttpStatus errorCode; 
+    // Detailed error message
+    private String errorMessage;      
+    // Timestamp of the error
+    private LocalDateTime errorTime;  
 }

@@ -1,0 +1,66 @@
+package com.tus.characters.service.impl;
+
+import com.tus.characters.dto.UserDto;
+import com.tus.characters.entity.User;
+import com.tus.characters.repository.UserRepository;
+import com.tus.characters.service.impl.UserServiceImpl;
+import com.tus.characters.mapper.UserMapper;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class UserServiceImplTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserServiceImpl userService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testGetUserById_Success() {
+
+        User user = new User();
+        user.setUserId(1L);
+        user.setEmail("test@test.com");
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.of(user));
+
+        UserDto result = userService.getUserById(1L);
+
+        assertNotNull(result);
+        assertEquals("test@test.com", result.getEmail());
+        verify(userRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testGetUserById_NotFound() {
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class,
+                () -> userService.getUserById(1L));
+
+        verify(userRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void testDeleteUser() {
+
+        when(userRepository.existsById(1L)).thenReturn(true);
+
+        userService.deleteUser(1L);
+
+        verify(userRepository, times(1)).deleteById(1L);
+    }
+}
