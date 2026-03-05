@@ -25,7 +25,7 @@ public interface CharactersRepository extends JpaRepository<Character, Long> {
     // For paginated date range
     List<Character> findByCreationDateBetween(LocalDate startDate, LocalDate endDate, Pageable pageable);
     
- // Pagination for all characters
+    // Pagination for all characters
     Page<Character> findAll(Pageable pageable);
 
     // Get all characters for a user with pagination

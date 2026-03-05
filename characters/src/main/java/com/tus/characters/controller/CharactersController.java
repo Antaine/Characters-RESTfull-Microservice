@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/characters")  // <--- important
+@RequestMapping("/api/characters")
 @RequiredArgsConstructor
 public class CharactersController {
 	private final ICharacterService characterService;
@@ -65,8 +65,7 @@ public class CharactersController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        return ResponseEntity.ok(
-                characterService.getCharactersByDateRange(startDate, endDate));
+        return ResponseEntity.ok(characterService.getCharactersByDateRange(startDate, endDate));
     }
     @Operation(summary = "Update character")
     @PutMapping("/{characterId}")
@@ -78,17 +77,13 @@ public class CharactersController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ResponseDto(
-                        CharacterConstants.STATUS_200,
-                        "Character updated successfully"));
+                .body(new ResponseDto(CharacterConstants.STATUS_200,"Character updated successfully"));
     }
     
     @GetMapping("/{characterId}")
-    public ResponseEntity<CharacterDto> getCharacterById(
-            @PathVariable Long characterId){
+    public ResponseEntity<CharacterDto> getCharacterById(@PathVariable Long characterId){
 
-        return ResponseEntity.ok(
-                characterService.getCharacterById(characterId));
+        return ResponseEntity.ok(characterService.getCharacterById(characterId));
     }
     
     @Operation(summary = "Get paginated characters")
@@ -99,8 +94,7 @@ public class CharactersController {
             @RequestParam(defaultValue = "characterId") String sortBy,
             @RequestParam(defaultValue = "asc") String direction) {
 
-        Page<CharacterDto> pageCharacters =
-                characterService.getCharactersPage(page, size, sortBy, direction);
+        Page<CharacterDto> pageCharacters =characterService.getCharactersPage(page, size, sortBy, direction);
 
         Map<String, Object> response = new HashMap<>();
         response.put("content", pageCharacters.getContent());
@@ -108,7 +102,6 @@ public class CharactersController {
         response.put("pageSize", pageCharacters.getSize());
         response.put("totalElements", pageCharacters.getTotalElements());
         response.put("totalPages", pageCharacters.getTotalPages());
-
         return ResponseEntity.ok(response);
     }
 }

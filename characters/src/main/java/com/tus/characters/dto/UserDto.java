@@ -18,7 +18,7 @@ public class UserDto {
 
     @NotEmpty(message = "Name cannot be null or empty")
     @Size(min = 5, max = 30, message = "Name length must be between 5 and 30")
-    private String name;
+    private String username;
 
     @NotEmpty(message = "Email cannot be null or empty")
     @Email(message = "Email should be valid")

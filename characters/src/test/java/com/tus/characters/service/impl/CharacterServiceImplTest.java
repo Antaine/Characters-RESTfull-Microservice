@@ -67,4 +67,12 @@ class CharacterServiceImplTest {
 		//Verifies Method was called once
 		verify(characterRepository, times(1)).findAll(any(Pageable.class));
 	}
+	
+	@Test
+	void testGetCharacterById_NotFound() {
+		
+		when(characterRepository.findById(1L)).thenReturn(Optional.empty());
+	    assertThrows(RuntimeException.class,() -> characterService.getCharacterById(1L));
+	    verify(characterRepository, times(1)).findById(1L);
+	}
 }

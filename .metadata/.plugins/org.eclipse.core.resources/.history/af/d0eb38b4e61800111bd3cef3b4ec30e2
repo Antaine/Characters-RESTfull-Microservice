@@ -1,0 +1,13 @@
+package com.tus.characters.service;
+
+import java.util.List;
+
+import com.tus.characters.dto.UserDto;
+import com.tus.characters.entity.User;
+
+public interface IUserService {
+    User createUser(User user);
+    User getUserById(Long userId);
+    
+    List<UserDto> getAllUsers();
+}

@@ -10,17 +10,19 @@ public class UserMapper {
 
 	//Convert User to DTO
 	 public static UserDto mapToUserDto(User user, UserDto userDto) {
-	        userDto.setName(user.getUsername());
+	        userDto.setUsername(user.getUsername());
 	        userDto.setEmail(user.getEmail());
-	        userDto.setPassword(user.getPassword()); // include password if needed
+	        userDto.setPassword(user.getPassword());
+	        userDto.setMobileNumber(user.getMobileNumber());
 	        return userDto;
 	    }
 
 	 //Convert DTO to Character
 	    public static User mapToUser(UserDto userDto, User user) {
-	        user.setUsername(userDto.getName());
+	        user.setUsername(userDto.getUsername());
 	        user.setEmail(userDto.getEmail());
-	        user.setPassword(userDto.getPassword()); // include password if needed
+	        user.setPassword(userDto.getPassword());
+	        userDto.setMobileNumber(user.getMobileNumber());
 	        return user;
 	    }
 }

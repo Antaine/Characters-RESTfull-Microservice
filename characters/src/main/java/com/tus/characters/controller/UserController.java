@@ -1,19 +1,20 @@
 package com.tus.characters.controller;
 
+import com.tus.characters.dto.UserDto;
 import com.tus.characters.entity.User;
+import com.tus.characters.mapper.UserMapper;
 import com.tus.characters.service.impl.UserServiceImpl;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
 import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users") // <-- this makes /api/users available
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -29,10 +30,33 @@ public class UserController {
         return userService.getUserById(userId);
     }
     
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    //@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Character> characters = new ArrayList<>();
+    
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
+    
+    //DELETE user by ID
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId); // calls your existing service method
+        Map<String, Object> response = new HashMap<>();
+        response.put("statusCode", 200);
+        response.put("statusMsg", "User deleted successfully");
+        return ResponseEntity.ok(response);
+    }
+    
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserDto> updateUser(
+            @PathVariable Long userId,
+            @RequestBody UserDto userDto) {
+
+        User updatedUser = userService.updateUser(userId, userDto);
+        UserDto updatedUserDto = UserMapper.mapToUserDto(updatedUser, new UserDto());
+
+        return ResponseEntity.ok(updatedUserDto);
+    }
 }
