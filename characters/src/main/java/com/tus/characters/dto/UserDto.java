@@ -1,5 +1,7 @@
 package com.tus.characters.dto;
 
+import java.util.List;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -32,4 +34,6 @@ public class UserDto {
     @NotEmpty(message = "Password cannot be null or empty")
     @Size(min = 6, max = 50, message = "Password length must be between 6 and 20")
     private String password; 
+    
+    private List<CharacterDto> characters;
 }

@@ -4,6 +4,8 @@ import com.tus.characters.dto.UserDto;
 import com.tus.characters.entity.User;
 import com.tus.characters.mapper.UserMapper;
 import com.tus.characters.service.impl.UserServiceImpl;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,17 +23,21 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+        // Create user entity
+        User user = userService.createUser(userDto);
+        // Map back to DTO for response
+        UserDto response = UserMapper.mapToUserDto(user, new UserDto());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long userId) {
-        return userService.getUserById(userId);
+    public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        UserDto userDto = UserMapper.mapToUserDto(user, new UserDto());
+        return ResponseEntity.ok(userDto);
     }
-    
-    //@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Character> characters = new ArrayList<>();
     
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {

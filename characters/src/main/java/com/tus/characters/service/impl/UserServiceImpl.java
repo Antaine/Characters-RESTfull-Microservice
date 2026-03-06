@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.tus.characters.dto.UserDto;
 import com.tus.characters.entity.User;
+import com.tus.characters.mapper.UserMapper;
 import com.tus.characters.repository.UserRepository;
 import com.tus.characters.service.IUserService;
 
@@ -21,7 +22,11 @@ public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
 
     @Override
-    public User createUser(User user) {return userRepository.save(user);}
+    public User createUser(UserDto userDto) {
+        User user = new User();
+        UserMapper.mapToUser(userDto, user);
+        return userRepository.save(user);
+    }
 
     @Override
     public User getUserById(Long userId) {
@@ -62,5 +67,6 @@ public class UserServiceImpl implements IUserService {
 
         return userRepository.save(existingUser);
     }
-    
+
+
 }

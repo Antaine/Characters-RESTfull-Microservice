@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Min;
 @Data
 public class CharacterDto {
 
+	private Long characterId;
     @NotNull(message = "UserId cannot be null")
     private Long userId;
 
