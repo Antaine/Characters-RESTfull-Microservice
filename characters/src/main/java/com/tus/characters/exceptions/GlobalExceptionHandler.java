@@ -33,10 +33,10 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
 	
-	/*// 500 Generic
+	 //500 Generic
 	@ExceptionHandler(Exception.class) public ResponseEntity<ResponseDto>
 	handleGeneric(Exception ex) { return
 	ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR) .body(new
 	ResponseDto("500", "Something went wrong")); 
-	}*/
+	}
 }
