@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="characters" project="characters" tests="7" started="7" failures="0" errors="3" ignored="0">
+  <testsuite name="com.tus.characters.service.impl.UserServiceImplTest" time="0.658" displayname="UserServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]">
+    <testcase name="testGetUserById_NotFound" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.652" displayname="testGetUserById_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testGetUserById_NotFound()]"/>
+    <testcase name="testGetUserById_Success" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.004" displayname="testGetUserById_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testGetUserById_Success()]"/>
+  </testsuite>
+  <testsuite name="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.062" displayname="CharacterServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]">
+    <testcase name="testGetCharacterById_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.035" displayname="testGetCharacterById_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharacterById_Success()]">
+      <error>java.lang.NullPointerException: Cannot invoke "com.tus.characters.entity.User.getUserId()" because the return value of "com.tus.characters.entity.Character.getUser()" is null&#13;
+	at com.tus.characters.mapper.CharacterMapper.mapToCharacterDto(CharacterMapper.java:16)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImpl.getCharacterById(CharacterServiceImpl.java:104)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.testGetCharacterById_Success(CharacterServiceImplTest.java:48)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+    <testcase name="testGetCharacterById_NotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testGetCharacterById_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharacterById_NotFound()]"/>
+    <testcase name="testCreateCharacter_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.011" displayname="testCreateCharacter_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testCreateCharacter_Success()]">
+      <error>org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+Unnecessary stubbings detected.
+Clean &amp; maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -&gt; at com.tus.characters.service.impl.CharacterServiceImplTest.testCreateCharacter_Success(CharacterServiceImplTest.java:89)
+  2. -&gt; at com.tus.characters.service.impl.CharacterServiceImplTest.testCreateCharacter_Success(CharacterServiceImplTest.java:90)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.&#13;
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:186)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+    <testcase name="testGetCharactersPage" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.011" displayname="testGetCharactersPage()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersPage()]">
+      <error>java.lang.NullPointerException: Cannot invoke "com.tus.characters.entity.User.getUserId()" because the return value of "com.tus.characters.entity.Character.getUser()" is null&#13;
+	at com.tus.characters.mapper.CharacterMapper.mapToCharacterDto(CharacterMapper.java:16)&#13;
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)&#13;
+	at java.base/java.util.ArrayList$Itr.forEachRemaining(ArrayList.java:1003)&#13;
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1845)&#13;
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)&#13;
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)&#13;
+	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)&#13;
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)&#13;
+	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)&#13;
+	at org.springframework.data.domain.Chunk.getConvertedContent(Chunk.java:131)&#13;
+	at org.springframework.data.domain.PageImpl.map(PageImpl.java:86)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImpl.getCharactersPage(CharacterServiceImpl.java:125)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.testGetCharactersPage(CharacterServiceImplTest.java:68)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+  </testsuite>
+  <testsuite name="com.tus.characters.CharactersApplicationTests" time="0.007" displayname="CharactersApplicationTests" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharactersApplicationTests]">
+    <testcase name="contextLoads" classname="com.tus.characters.CharactersApplicationTests" time="0.007" displayname="contextLoads()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharactersApplicationTests]/[method:contextLoads()]"/>
+  </testsuite>
+</testrun>

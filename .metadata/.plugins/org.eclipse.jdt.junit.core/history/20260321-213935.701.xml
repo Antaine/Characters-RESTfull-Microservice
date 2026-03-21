@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterServiceImplTest" project="characters" tests="5" started="5" failures="0" errors="2" ignored="0">
+  <testsuite name="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.709" displayname="CharacterServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]">
+    <testcase name="testGetCharacterById_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.682" displayname="testGetCharacterById_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharacterById_Success()]">
+      <error>java.lang.NullPointerException: Cannot invoke "com.tus.characters.entity.User.getUserId()" because the return value of "com.tus.characters.entity.Character.getUser()" is null&#13;
+	at com.tus.characters.mapper.CharacterMapper.mapToCharacterDto(CharacterMapper.java:16)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImpl.getCharacterById(CharacterServiceImpl.java:104)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.testGetCharacterById_Success(CharacterServiceImplTest.java:48)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+    <testcase name="testGetCharacterById_NotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.009" displayname="testGetCharacterById_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharacterById_NotFound()]"/>
+    <testcase name="testCreateCharacter_UserNotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.004" displayname="testCreateCharacter_UserNotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testCreateCharacter_UserNotFound()]"/>
+    <testcase name="testCreateCharacter_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.007" displayname="testCreateCharacter_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testCreateCharacter_Success()]"/>
+    <testcase name="testGetCharactersPage" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.007" displayname="testGetCharactersPage()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersPage()]">
+      <error>java.lang.NullPointerException: Cannot invoke "com.tus.characters.entity.User.getUserId()" because the return value of "com.tus.characters.entity.Character.getUser()" is null&#13;
+	at com.tus.characters.mapper.CharacterMapper.mapToCharacterDto(CharacterMapper.java:16)&#13;
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)&#13;
+	at java.base/java.util.ArrayList$Itr.forEachRemaining(ArrayList.java:1003)&#13;
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1845)&#13;
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)&#13;
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)&#13;
+	at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)&#13;
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)&#13;
+	at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)&#13;
+	at org.springframework.data.domain.Chunk.getConvertedContent(Chunk.java:131)&#13;
+	at org.springframework.data.domain.PageImpl.map(PageImpl.java:86)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImpl.getCharactersPage(CharacterServiceImpl.java:125)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.testGetCharactersPage(CharacterServiceImplTest.java:68)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+  </testsuite>
+</testrun>
