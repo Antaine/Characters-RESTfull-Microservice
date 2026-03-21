@@ -27,112 +27,127 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class CharacterServiceImplTest {
 
-	//Generate Fake Database
+	// Generate Fake Database
 	@Mock
 	private CharactersRepository characterRepository;
 	@Mock
 	private UserRepository userRepository;
-	//Add to Service
+	// Add to Service
 	@InjectMocks
 	private CharacterServiceImpl characterService;
 
-	//Helper Methods
+	// Helper Methods
 	private Character createCharacterWithUser(Long userId, int level) {
-	    User user = new User();
-	    user.setUserId(1L);
-
-	    Character character = new Character();
-	    character.setCharacterId(1L);
-	    character.setLevel(10);
-	    character.setUser(user);
-
-	    return character;
+		User user = new User();
+		user.setUserId(userId);
+		Character character = new Character();
+		character.setCharacterId(1L);
+		character.setLevel(level);
+		character.setUser(user);
+		return character;
 	}
-	
 
-
-	//Positive Testing
+	// Positive Testing
 	@Test
 	void testCreateCharacter_Success() {
 
-	    CharacterDto dto = new CharacterDto();
-	    dto.setUserId(1L);
-	    dto.setLevel(10);
+		CharacterDto dto = new CharacterDto();
+		dto.setUserId(1L);
+		dto.setLevel(10);
+		User user = new User();
+		user.setUserId(1L);
+		Character character = createCharacterWithUser(1L, 10);
 
-	    User user = new User();
-	    user.setUserId(1L);
-
-	    Character character = createCharacterWithUser(1L, 5); 
-
-	    when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-	    when(characterRepository.save(any(Character.class))).thenReturn(character);
-
-	    CharacterDto result = characterService.createCharacter(dto);
-
-	    assertNotNull(result);
-	    assertEquals(10, result.getLevel());
-	    assertEquals(1L, result.getUserId());
-
-	    verify(userRepository, times(1)).findById(1L);
-	    verify(characterRepository, times(1)).save(any(Character.class));
+		when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+		when(characterRepository.save(any(Character.class))).thenReturn(character);
+		CharacterDto result = characterService.createCharacter(dto);
+		assertNotNull(result);
+		assertEquals(10, result.getLevel());
+		assertEquals(1L, result.getUserId());
+		verify(userRepository, times(1)).findById(1L);
+		verify(characterRepository, times(1)).save(any(Character.class));
 	}
-	
+
 	@Test
 	void testGetCharacterById_Success() {
 
 		Character character = createCharacterWithUser(1L, 5);
 		when(characterRepository.findById(1L)).thenReturn(Optional.of(character));
 		CharacterDto result = characterService.getCharacterById(1L);
-
-	    assertNotNull(result);
-	    assertEquals(10, result.getLevel());
-	    assertEquals(1L, result.getUserId());
-	    verify(characterRepository, times(1)).findById(1L);
+		assertNotNull(result);
+		assertEquals(5, result.getLevel());
+		assertEquals(1L, result.getUserId());
+		verify(characterRepository, times(1)).findById(1L);
 	}
 
 	@Test
 	void testGetCharactersPage() {
 
 		Character character = createCharacterWithUser(1L, 5);
-	    List<Character> list = List.of(character);
-	    Page<Character> page = new PageImpl<>(list);
-	    when(characterRepository.findAll(any(Pageable.class))).thenReturn(page);
-	    Page<CharacterDto> result = characterService.getCharactersPage(0, 5, "characterId", "asc");
-
-	    assertEquals(1, result.getTotalElements());
-	    assertEquals(1L, result.getContent().get(0).getUserId());
-	    verify(characterRepository, times(1)).findAll(any(Pageable.class));
+		List<Character> list = List.of(character);
+		Page<Character> page = new PageImpl<>(list);
+		when(characterRepository.findAll(any(Pageable.class))).thenReturn(page);
+		Page<CharacterDto> result = characterService.getCharactersPage(0, 5, "characterId", "asc");
+		assertEquals(1, result.getTotalElements());
+		assertEquals(1L, result.getContent().get(0).getUserId());
+		verify(characterRepository, times(1)).findAll(any(Pageable.class));
 	}
 	
-	//Negative Testing
+	@Test
+	void testGetCharactersByUser() {
+		Long userId = 1L;
+
+	    User user = new User();
+	    user.setUserId(userId);
+
+	    Character character1 = createCharacterWithUser(userId, 5);
+	    Character character2 = createCharacterWithUser(userId, 10);
+
+	    List<Character> characters = List.of(character1, character2);
+
+	    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+	    when(characterRepository.findByUser(user)).thenReturn(characters);
+
+	    // Act
+	    List<CharacterDto> result = characterService.getCharactersByUserId(userId);
+
+	    // Assert
+	    assertNotNull(result);
+	    assertEquals(2, result.size());
+	    assertEquals(5, result.get(0).getLevel());
+	    assertEquals(10, result.get(1).getLevel());
+	    assertEquals(userId, result.get(0).getUserId());
+	    assertEquals(userId, result.get(1).getUserId());
+
+	    verify(userRepository, times(1)).findById(userId);
+	    verify(characterRepository, times(1)).findByUser(user);}
+
+	// Negative Testing
 	@Test
 	void testCreateCharacter_UserNotFound() {
-
 		CharacterDto dto = new CharacterDto();
 		dto.setUserId(1L);
 		dto.setLevel(10);
-
-	    when(userRepository.findById(1L)).thenReturn(Optional.empty());
-	    assertThrows(RuntimeException.class, () -> {characterService.createCharacter(dto);});
-
-	    verify(userRepository, times(1)).findById(1L);
-	    verify(characterRepository, never()).save(any());
+		when(userRepository.findById(1L)).thenReturn(Optional.empty());
+		assertThrows(RuntimeException.class, () -> {characterService.createCharacter(dto);});
+		verify(userRepository, times(1)).findById(1L);
+		verify(characterRepository, never()).save(any());
 	}
-	
+
 	@Test
 	void testGetCharacterById_InvalidId() {
 
-	    when(characterRepository.findById(99L)).thenReturn(Optional.empty());
-	    assertThrows(RuntimeException.class, () -> {characterService.getCharacterById(99L);});
-	    verify(characterRepository, times(1)).findById(99L);
+		when(characterRepository.findById(99L)).thenReturn(Optional.empty());
+		assertThrows(RuntimeException.class, () -> {characterService.getCharacterById(99L);});
+		verify(characterRepository, times(1)).findById(99L);
 	}
-	
+
 	@Test
 	void testGetCharacterById_NotFound() {
-		
+
 		when(characterRepository.findById(1L)).thenReturn(Optional.empty());
-	    assertThrows(RuntimeException.class,() -> characterService.getCharacterById(1L));
-	    verify(characterRepository, times(1)).findById(1L);
+		assertThrows(RuntimeException.class, () -> characterService.getCharacterById(1L));
+		verify(characterRepository, times(1)).findById(1L);
 	}
-	
+
 }
