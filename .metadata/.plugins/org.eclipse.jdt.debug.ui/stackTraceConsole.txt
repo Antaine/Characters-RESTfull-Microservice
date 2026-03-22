@@ -1,12 +1,17 @@
-org.opentest4j.AssertionFailedError: expected: <10> but was: <5>
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.tus.characters.exceptions.ResourceNotFoundException> but was: <java.lang.RuntimeException>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
-	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
-	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
-	at com.tus.characters.service.impl.CharacterServiceImplTest.testCreateCharacter_Success(CharacterServiceImplTest.java:66)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.tus.characters.service.impl.UserServiceImplTest.testUpdateUser_NotFound(UserServiceImplTest.java:124)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: java.lang.RuntimeException: User not found with ID: 1
+	at com.tus.characters.service.impl.UserServiceImpl.lambda$2(UserServiceImpl.java:61)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.tus.characters.service.impl.UserServiceImpl.updateUser(UserServiceImpl.java:61)
+	at com.tus.characters.service.impl.UserServiceImplTest.lambda$3(UserServiceImplTest.java:124)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
 

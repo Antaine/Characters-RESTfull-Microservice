@@ -89,7 +89,7 @@ class CharacterServiceImplTest {
 		Page<Character> page = new PageImpl<>(list);
 		when(characterRepository.findAll(any(Pageable.class))).thenReturn(page);
 		Page<CharacterDto> result = characterService.getCharactersPage(0, 5, "characterId", "asc");
-		assertEquals(1, result.getTotalElements());
+		assertEquals(5, result.getContent().get(0).getLevel());
 		assertEquals(1L, result.getContent().get(0).getUserId());
 		verify(characterRepository, times(1)).findAll(any(Pageable.class));
 	}
@@ -155,7 +155,7 @@ class CharacterServiceImplTest {
 
 	    assertEquals(10, existing.getLevel());
 	    assertEquals("Mage", existing.getCharacterClass());
-
+	    assertEquals("Elf", existing.getCharacterRace());
 	    verify(characterRepository).save(existing);
 	}
 	

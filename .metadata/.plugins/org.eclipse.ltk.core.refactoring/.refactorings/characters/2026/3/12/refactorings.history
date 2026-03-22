@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.tus.characters.map&apos; to &apos;com.tus.characters.mapper&apos;&#x0D;&#x0A;- Original project: &apos;characters&apos;&#x0D;&#x0A;- Original element: &apos;characters/src/test/java/com.tus.characters.map&apos;&#x0D;&#x0A;- Renamed element: &apos;characters/src/test/java/com.tus.characters.mapper&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.tus.characters.map&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src\/test\/java=/test=/true=/=/optional=/true=/=/maven.pomderived=/true=/&lt;com.tus.characters.map" name="com.tus.characters.mapper" qualified="false" references="true" stamp="1774190879779" textual="false" version="1.0"/>
+</session>
