@@ -1,5 +1,6 @@
 package com.tus.characters.service.impl;
 
+import com.tus.characters.dto.UserDto;
 import com.tus.characters.entity.User;
 import com.tus.characters.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ class UserServiceImplTest {
 	@InjectMocks
 	private UserServiceImpl userService;
 
+	//Positive Testing
 	@Test
 	void testGetUserById_Success() {
 		//Create User
@@ -36,7 +38,60 @@ class UserServiceImplTest {
 		//Verify it was called once
 		verify(userRepository, times(1)).findById(1L);
 	}
+	
+	@Test
+	void testCreateUser() {
+		UserDto dto = new UserDto();
+	    dto.setEmail("test@test.com");
+	    User savedUser = new User();
+	    savedUser.setUserId(1L);
+	    savedUser.setEmail("test@test.com");
+	    when(userRepository.save(any(User.class))).thenReturn(savedUser);
+	    User result = userService.createUser(dto);
+	    assertNotNull(result);
+	    assertEquals(1L, result.getUserId());
+	    assertEquals("test@test.com", result.getEmail());
+	    verify(userRepository, times(1)).save(any(User.class));
+	    
+	}
+	
+	@Test
+	void testUpdateUser_Success() {
+	    Long userId = 1L;
+	    UserDto userDto = new UserDto();
+	    userDto.setUsername("newusername");
+	    userDto.setEmail("newemail@test.com");
+	    userDto.setPassword("newpassword");
+	    userDto.setMobileNumber("1234567890");
+	    User existingUser = new User();
+	    existingUser.setUserId(userId);
+	    existingUser.setUsername("oldusername");
+	    existingUser.setEmail("oldemail@test.com");
+	    existingUser.setPassword("oldpassword");
+	    existingUser.setMobileNumber("0987654321");
+	    when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+	    when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+	    User updatedUser = userService.updateUser(userId, userDto);
+	    assertNotNull(updatedUser);
+	    assertEquals(userId, updatedUser.getUserId());
+	    assertEquals("newusername", updatedUser.getUsername());
+	    assertEquals("newemail@test.com", updatedUser.getEmail());
+	    assertEquals("newpassword", updatedUser.getPassword());
+	    assertEquals("1234567890", updatedUser.getMobileNumber());
+	    verify(userRepository, times(1)).findById(userId);
+	    verify(userRepository, times(1)).save(existingUser);
+	}
+	
+	@Test
+	void testDeleteUser_Success() {
+	    Long userId = 1L;
+	    when(userRepository.existsById(userId)).thenReturn(true);
+	    userService.deleteUser(userId);
+	    verify(userRepository, times(1)).existsById(userId);
+	    verify(userRepository, times(1)).deleteById(userId);
+	}
 
+	//Negative Testing
 	@Test
 	void testGetUserById_NotFound() {
 		//Simulate no user in database
@@ -45,5 +100,44 @@ class UserServiceImplTest {
 		assertThrows(RuntimeException.class, () -> userService.getUserById(1L));
 		//Verify it was called once
 		verify(userRepository, times(1)).findById(1L);
+	}
+	
+	@Test
+	void testCreateUser_MissingEmail() {
+	    UserDto dto = new UserDto();
+	    dto.setEmail(null);
+	    when(userRepository.save(any(User.class))).thenThrow(new RuntimeException("Email is required"));
+	    RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.createUser(dto));
+	    assertEquals("Email is required", exception.getMessage());
+	    verify(userRepository, times(1)).save(any(User.class));
+	}
+	
+	@Test
+	void testUpdateUser_NotFound() {
+	    // Arrange
+	    Long userId = 1L;
+	    UserDto userDto = new UserDto();
+	    userDto.setUsername("newusername");
+	    when(userRepository.findById(userId)).thenReturn(Optional.empty());
+	    // Act & Assert
+	    assertThrows(RuntimeException.class, () -> userService.updateUser(userId, userDto));
+	    // Verify repository interactions
+	    verify(userRepository, times(1)).findById(userId);
+	    verify(userRepository, never()).save(any(User.class));
+	}
+	
+	@Test
+	void testDeleteUser_NotFound() {
+	    Long userId = 1L;
+
+	    // Mock repository behavior
+	    when(userRepository.existsById(userId)).thenReturn(false);
+
+	    // Act & Assert: expect exception
+	    assertThrows(RuntimeException.class, () -> userService.deleteUser(userId));
+
+	    // Verify delete was never called
+	    verify(userRepository, times(1)).existsById(userId);
+	    verify(userRepository, never()).deleteById(any());
 	}
 }

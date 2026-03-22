@@ -3,6 +3,7 @@ package com.tus.characters.service.impl;
 import com.tus.characters.dto.CharacterDto;
 import com.tus.characters.entity.Character;
 import com.tus.characters.entity.User;
+import com.tus.characters.exceptions.ResourceNotFoundException;
 import com.tus.characters.repository.CharactersRepository;
 import com.tus.characters.repository.UserRepository;
 
@@ -94,6 +95,17 @@ class CharacterServiceImplTest {
 	}
 	
 	@Test
+	void testDeleteCharacter_Success() {
+	    Character character = createCharacterWithUser(1L, 5);
+
+	    when(characterRepository.findById(1L)).thenReturn(Optional.of(character));
+
+	    characterService.deleteCharacter(1L);
+
+	    verify(characterRepository, times(1)).delete(character);
+	}
+	
+	@Test
 	void testGetCharactersByUser() {
 		Long userId = 1L;
 
@@ -120,8 +132,70 @@ class CharacterServiceImplTest {
 	    assertEquals(userId, result.get(1).getUserId());
 
 	    verify(userRepository, times(1)).findById(userId);
-	    verify(characterRepository, times(1)).findByUser(user);}
+	    verify(characterRepository, times(1)).findByUser(user);
+	}
+	
+	@Test
+	void testUpdateCharacter_Success() {
+	    Character existing = createCharacterWithUser(1L, 5);
 
+	    User user = new User();
+	    user.setUserId(1L);
+
+	    CharacterDto dto = new CharacterDto();
+	    dto.setUserId(1L);
+	    dto.setLevel(10);
+	    dto.setCharacterClass("Mage");
+	    dto.setCharacterRace("Elf");
+
+	    when(characterRepository.findById(1L)).thenReturn(Optional.of(existing));
+	    when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+	    characterService.updateCharacter(1L, dto);
+
+	    assertEquals(10, existing.getLevel());
+	    assertEquals("Mage", existing.getCharacterClass());
+
+	    verify(characterRepository).save(existing);
+	}
+	
+	@Test
+	void testGetAllCharacters() {
+	    Character character = createCharacterWithUser(1L, 5);
+	    when(characterRepository.findAll()).thenReturn(List.of(character));
+
+	    List<CharacterDto> result = characterService.getAllCharacters();
+
+	    assertEquals(1, result.size());
+	    assertEquals(5, result.get(0).getLevel());
+	    assertEquals(1L, result.get(0).getUserId());
+	    verify(characterRepository, times(1)).findAll();
+	}
+	
+	@Test
+	void testGetCharactersByDateRange() {
+	    Character character = createCharacterWithUser(1L, 5);
+
+	    when(characterRepository.findByCreationDateBetween(any(), any()))
+	        .thenReturn(List.of(character));
+
+	    List<CharacterDto> result =
+	        characterService.getCharactersByDateRange(null, null);
+
+	    assertEquals(1, result.size());
+	    assertEquals(5, result.get(0).getLevel());
+	    verify(characterRepository, times(1)).findByCreationDateBetween(any(), any());
+	}
+	
+	@Test
+	void testGetAllCharacters_Empty() {
+	    when(characterRepository.findAll()).thenReturn(List.of());
+
+	    List<CharacterDto> result = characterService.getAllCharacters();
+
+	    assertTrue(result.isEmpty());
+	    verify(characterRepository).findAll();
+	}
 	// Negative Testing
 	@Test
 	void testCreateCharacter_UserNotFound() {
@@ -129,7 +203,7 @@ class CharacterServiceImplTest {
 		dto.setUserId(1L);
 		dto.setLevel(10);
 		when(userRepository.findById(1L)).thenReturn(Optional.empty());
-		assertThrows(RuntimeException.class, () -> {characterService.createCharacter(dto);});
+		assertThrows(ResourceNotFoundException.class, () -> {characterService.createCharacter(dto);});
 		verify(userRepository, times(1)).findById(1L);
 		verify(characterRepository, never()).save(any());
 	}
@@ -138,7 +212,7 @@ class CharacterServiceImplTest {
 	void testGetCharacterById_InvalidId() {
 
 		when(characterRepository.findById(99L)).thenReturn(Optional.empty());
-		assertThrows(RuntimeException.class, () -> {characterService.getCharacterById(99L);});
+		assertThrows(ResourceNotFoundException.class, () -> {characterService.getCharacterById(99L);});
 		verify(characterRepository, times(1)).findById(99L);
 	}
 
@@ -146,8 +220,54 @@ class CharacterServiceImplTest {
 	void testGetCharacterById_NotFound() {
 
 		when(characterRepository.findById(1L)).thenReturn(Optional.empty());
-		assertThrows(RuntimeException.class, () -> characterService.getCharacterById(1L));
+		assertThrows(ResourceNotFoundException.class, () -> characterService.getCharacterById(1L));
 		verify(characterRepository, times(1)).findById(1L);
+	}
+	
+	@Test
+	void testDeleteCharacter_NotFound() {
+	    when(characterRepository.findById(1L)).thenReturn(Optional.empty());
+
+	    assertThrows(ResourceNotFoundException.class,() -> characterService.deleteCharacter(1L));
+
+	    verify(characterRepository, never()).delete(any());
+	}
+	
+	@Test
+	void testUpdateCharacter_CharacterNotFound() {
+	    when(characterRepository.findById(1L)).thenReturn(Optional.empty());
+
+	    CharacterDto dto = new CharacterDto();
+	    dto.setUserId(1L);
+
+	    assertThrows(ResourceNotFoundException.class,
+	        () -> characterService.updateCharacter(1L, dto));
+	}
+	
+	@Test
+	void testUpdateCharacter_UserNotFound() {
+	    Character existing = createCharacterWithUser(1L, 5);
+
+	    when(characterRepository.findById(1L)).thenReturn(Optional.of(existing));
+	    when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+	    CharacterDto dto = new CharacterDto();
+	    dto.setUserId(1L);
+
+	    assertThrows(ResourceNotFoundException.class,
+	        () -> characterService.updateCharacter(1L, dto));
+	}
+	
+	@Test
+	void testGetCharactersPage_InvalidSortField() {
+	    assertThrows(IllegalArgumentException.class, () ->
+	        characterService.getCharactersPage(0, 5, "invalid", "asc"));
+	}
+	
+	@Test
+	void testGetCharactersPage_InvalidDirection() {
+	    assertThrows(IllegalArgumentException.class, () ->
+	        characterService.getCharactersPage(0, 5, "characterId", "wrong"));
 	}
 
 }
