@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserMapperTest" project="characters" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.mapper.UserMapperTest" time="0.009" displayname="UserMapperTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]">
+    <testcase name="mapToUserDto_shouldMapCharactersList" classname="com.tus.characters.mapper.UserMapperTest" time="0.008" displayname="mapToUserDto_shouldMapCharactersList()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:mapToUserDto_shouldMapCharactersList()]"/>
+    <testcase name="mapToUserDto_shouldMapBasicFields" classname="com.tus.characters.mapper.UserMapperTest" time="0.001" displayname="mapToUserDto_shouldMapBasicFields()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:mapToUserDto_shouldMapBasicFields()]"/>
+    <testcase name="mapToUser_shouldMapFieldsCorrectly" classname="com.tus.characters.mapper.UserMapperTest" time="0.0" displayname="mapToUser_shouldMapFieldsCorrectly()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:mapToUser_shouldMapFieldsCorrectly()]"/>
+  </testsuite>
+</testrun>

@@ -24,6 +24,10 @@ public class CharacterServiceImpl implements ICharacterService {
 	//Constants
     private final CharactersRepository charactersRepository;
     private final UserRepository userRepository;
+    private static final String USER = "User";
+    private static final String USER_ID = "userId";
+    private static final String CHARACTER = "Character";
+    private static final String CHARACTER_ID = "characterId";
 
     private static final List<String> ALLOWED_SORT_FIELDS =
             List.of("characterId", "characterClass", "characterRace", "level", "creationDate");
@@ -32,7 +36,7 @@ public class CharacterServiceImpl implements ICharacterService {
     @Override
     public CharacterDto createCharacter(CharacterDto characterDto) {
         User user = userRepository.findById(characterDto.getUserId())
-                .orElseThrow(() ->new ResourceNotFoundException("User", "userId",characterDto.getUserId().toString()));
+                .orElseThrow(() ->new ResourceNotFoundException("User", "userId",String.valueOf(characterDto.getUserId())));
 
         Character character = CharacterMapper.mapToCharacter(characterDto, user);
         Character savedCharacter = charactersRepository.save(character);
@@ -86,7 +90,7 @@ public class CharacterServiceImpl implements ICharacterService {
                 .orElseThrow(() ->new ResourceNotFoundException("Character","characterId",characterId.toString()));
 
         User user = userRepository.findById(characterDto.getUserId())
-                .orElseThrow(() ->new ResourceNotFoundException("User","userId",characterDto.getUserId().toString()));
+                .orElseThrow(() ->new ResourceNotFoundException("User","userId",String.valueOf(characterDto.getUserId())));
 
         existingCharacter.setCharacterClass(characterDto.getCharacterClass());
         existingCharacter.setCharacterRace(characterDto.getCharacterRace());

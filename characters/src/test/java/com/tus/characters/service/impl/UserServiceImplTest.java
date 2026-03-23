@@ -93,14 +93,20 @@ class UserServiceImplTest {
 	}
 
 	//Negative Testing
+	
+	//AI Example 4
 	@Test
 	void testGetUserById_NotFound() {
-		//Simulate no user in database
-		when(userRepository.findById(1L)).thenReturn(Optional.empty());
-		//Check for Runtime Exception
-		 assertThrows(RuntimeException.class, () -> userService.getUserById(1L));
-		//Verify it was called once
-		verify(userRepository, times(1)).findById(1L);
+	    when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+	    ResourceNotFoundException ex = assertThrows(
+	        ResourceNotFoundException.class,
+	        () -> userService.getUserById(1L)
+	    );
+
+	    assertEquals("User not found with userId : '1'", ex.getMessage());
+
+	    verify(userRepository).findById(1L);
 	}
 	
 	@Test

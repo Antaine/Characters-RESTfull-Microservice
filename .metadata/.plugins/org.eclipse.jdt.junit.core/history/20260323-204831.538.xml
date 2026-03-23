@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserServiceImplTest" project="characters" tests="9" started="9" failures="1" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.service.impl.UserServiceImplTest" time="0.692" displayname="UserServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]">
+    <testcase name="testGetUserById_NotFound" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.655" displayname="testGetUserById_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testGetUserById_NotFound()]">
+      <failure>
+        <expected>class com.tus.characters.exceptions.ResourceNotFoundException</expected>
+        <actual>class java.lang.RuntimeException</actual>
+        org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;com.tus.characters.exceptions.ResourceNotFoundException&gt; but was: &lt;java.lang.RuntimeException&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)&#13;
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)&#13;
+	at com.tus.characters.service.impl.UserServiceImplTest.testGetUserById_NotFound(UserServiceImplTest.java:104)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+Caused by: java.lang.RuntimeException: User not found with userId: 1&#13;
+	at com.tus.characters.service.impl.UserServiceImpl.lambda$0(UserServiceImpl.java:34)&#13;
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)&#13;
+	at com.tus.characters.service.impl.UserServiceImpl.getUserById(UserServiceImpl.java:34)&#13;
+	at com.tus.characters.service.impl.UserServiceImplTest.lambda$1(UserServiceImplTest.java:106)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)&#13;
+	... 6 more&#13;
+&#13;
+
+      </failure>
+    </testcase>
+    <testcase name="testDeleteUser_Success" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.012" displayname="testDeleteUser_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testDeleteUser_Success()]"/>
+    <testcase name="testUpdateUser_Success" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.009" displayname="testUpdateUser_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testUpdateUser_Success()]"/>
+    <testcase name="testDeleteUser_NotFound" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.004" displayname="testDeleteUser_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testDeleteUser_NotFound()]"/>
+    <testcase name="testUpdateUser_NotFound" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.002" displayname="testUpdateUser_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testUpdateUser_NotFound()]"/>
+    <testcase name="testCreateUser" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.003" displayname="testCreateUser()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testCreateUser()]"/>
+    <testcase name="testCreateUser_DuplicateEmail" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.003" displayname="testCreateUser_DuplicateEmail()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testCreateUser_DuplicateEmail()]"/>
+    <testcase name="testGetUserById_Success" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.002" displayname="testGetUserById_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testGetUserById_Success()]"/>
+    <testcase name="testCreateUser_MissingEmail" classname="com.tus.characters.service.impl.UserServiceImplTest" time="0.002" displayname="testCreateUser_MissingEmail()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.UserServiceImplTest]/[method:testCreateUser_MissingEmail()]"/>
+  </testsuite>
+</testrun>

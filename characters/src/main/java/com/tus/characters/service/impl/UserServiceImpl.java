@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.tus.characters.dto.UserDto;
 import com.tus.characters.entity.User;
+import com.tus.characters.exceptions.ResourceNotFoundException;
 import com.tus.characters.mapper.UserMapper;
 import com.tus.characters.repository.UserRepository;
 import com.tus.characters.service.IUserService;
@@ -19,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 @Service@RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
+	private static final String USER = "User";
+	private static final String USER_ID = "userId";
     private final UserRepository userRepository;
 
     @Override
@@ -26,17 +29,22 @@ public class UserServiceImpl implements IUserService {
         User user = new User();
         UserMapper.mapToUser(userDto, user);
         return userRepository.save(user);
-    }
+    }		
 
+    //AI Example 4
     @Override
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() ->new RuntimeException("User not found with userId: " + userId));
+            .orElseThrow(() -> new ResourceNotFoundException(
+                "User",
+                "userId",
+                String.valueOf(userId)
+            ));
     }
 
     public void deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User not found with userId: " + userId);
+        	throw new ResourceNotFoundException(USER,USER_ID,String.valueOf(userId));
         }
         userRepository.deleteById(userId);
     }
@@ -58,7 +66,7 @@ public class UserServiceImpl implements IUserService {
     
     public User updateUser(Long userId, UserDto userDto) {
         User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        		.orElseThrow(() -> new ResourceNotFoundException(USER,USER_ID,String.valueOf(userId)));
 
         existingUser.setUsername(userDto.getUsername());
         existingUser.setEmail(userDto.getEmail());
