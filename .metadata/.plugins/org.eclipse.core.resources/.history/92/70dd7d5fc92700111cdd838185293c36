@@ -1,0 +1,22 @@
+package com.tus.characters.repository;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import com.tus.characters.entity.User;
+
+public class UserRespositoryTest {
+
+    @Test
+    void createUser_CallsUserRepositorySave() {
+        User user = new User();
+        user.setUsername("newuser");
+        user.setEmail("newuser@example.com");
+        user.setPassword("password");
+
+        User saved = entityManager.persistAndFlush(user);
+
+        assertNotNull(saved.getUserId(), "User should be saved and have an ID");
+    }
+}

@@ -1,0 +1,87 @@
+package com.tus.characters.controller;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.service.ICharacterService;
+
+@WebMvcTest(controllers = CharactersController.class)
+@AutoConfigureMockMvc(addFilters = false)
+class CharactersControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ICharacterService characterService;
+
+    @Test
+    void getAllCharacters_ReturnsOk() throws Exception {
+        CharacterDto dto = new CharacterDto();
+        dto.setCharacterId(1L);
+        dto.setLevel(5);
+
+        when(characterService.getAllCharacters())
+                .thenReturn(List.of(dto));
+
+        mockMvc.perform(get("/api/characters"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].level").value(5));
+    }
+
+    @Test
+    void createCharacter_InvalidLevel_ReturnsBadRequest() throws Exception {
+        String json = """
+            {
+                "userId": 1,
+                "level": 25,
+                "characterClass": "Mage",
+                "characterRace": "Elf"
+            }
+        """;
+
+        mockMvc.perform(post("/api/characters")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isBadRequest());
+    }
+    
+    @Test
+    void createCharacter_Valid_ReturnsCreated() throws Exception {
+
+        String json = """
+            {
+                "userId": 1,
+                "level": 10,
+                "characterClass": "Mage",
+                "characterRace": "Elf"
+            }
+        """;
+
+        CharacterDto responseDto = new CharacterDto();
+        responseDto.setCharacterId(1L);
+        responseDto.setLevel(10);
+
+        when(characterService.createCharacter(any()))
+                .thenReturn(responseDto);
+
+        mockMvc.perform(post("/api/characters")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.level").value(10));
+    }
+}

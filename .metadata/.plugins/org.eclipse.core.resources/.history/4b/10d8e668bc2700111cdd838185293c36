@@ -1,0 +1,41 @@
+package com.tus.characters.controller;
+
+
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.service.impl.CharacterServiceImpl;
+
+@ExtendWith(MockitoExtension.class)
+@WebMvcTest(CharactersController.class)
+class CharactersControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private CharacterServiceImpl characterService;
+
+    @Test
+    void getAllCharacters_ReturnsOk() throws Exception {
+        CharacterDto dto = new CharacterDto();
+        dto.setCharacterId(1L);
+        dto.setLevel(5);
+
+        when(characterService.getAllCharacters())
+            .thenReturn(List.of(dto));
+
+        mockMvc.perform(get("/api/characters"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].level").value(5));
+    }
+}

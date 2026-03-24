@@ -1,0 +1,133 @@
+package com.tus.characters.repository;
+
+import com.tus.characters.audit.AuditAwareImpl;
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@DataJpaTest
+@Import(AuditAwareImpl.class)
+@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
+class CharacterRepositoryTest {
+
+    @Autowired
+    private CharactersRepository characterRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
+    private Validator validator; // <-- Inject the validator
+
+    private User user;
+
+    @BeforeEach
+    void setupUser() {
+        user = new User();
+        user.setUsername("tester");
+        user.setEmail("tester@example.com");
+        user.setPassword("password");
+        user = entityManager.persistAndFlush(user);
+    }
+
+    @Test
+    void findByUser_ReturnsCharacters() {
+        Character character = new Character();
+        character.setLevel(5);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+        character.setUser(user);
+        entityManager.persistAndFlush(character);
+
+        List<Character> result = characterRepository.findByUser(user);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void deleteCharacter_CallsRepositoryDelete() {
+        Character character = new Character();
+        character.setLevel(5);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+        character.setUser(user);
+        character = entityManager.persistAndFlush(character);
+
+        characterRepository.deleteById(character.getCharacterId());
+        assertFalse(characterRepository.existsById(character.getCharacterId()), "Character should be deleted");
+    }
+
+    @Test
+    void testUpdateCharacter_InvalidLevel_ThrowsException() {
+        User user = new User();
+        user.setUsername("testUser");
+        user.setEmail("test@example.com");
+        user.setPassword("password");
+        user = entityManager.persistAndFlush(user);
+
+        Character tempCharacter = new Character();
+        tempCharacter.setLevel(5);
+        tempCharacter.setCharacterClass("Warrior");
+        tempCharacter.setCharacterRace("Human");
+        tempCharacter.setUser(user);
+        final Character character = entityManager.persistAndFlush(tempCharacter);
+
+        character.setLevel(25); // assuming max allowed level is 20
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            entityManager.persistAndFlush(character);
+        });
+        assertTrue(exception.getMessage().contains("level"));
+    }
+
+    @Test
+    void saveAndRetrieveCharacter() {
+        Character character = new Character();
+        character.setLevel(7);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+        character.setUser(user);
+        character = entityManager.persistAndFlush(character);
+
+        Character retrieved = characterRepository.findById(character.getCharacterId()).orElse(null);
+        assertNotNull(retrieved);
+        assertEquals(7, retrieved.getLevel());
+        assertEquals("Mage", retrieved.getCharacterClass());
+    }
+
+    @Test
+    void createCharacter_NullClassOrRace_ThrowsConstraintViolation() {
+        Character character = new Character();
+        character.setLevel(5);
+        character.setCharacterClass(null); // invalid
+        character.setCharacterRace(null);  // invalid
+        character.setUser(user);
+
+        // Use the Validator explicitly for Bean Validation
+        Exception exception = assertThrows(ConstraintViolationException.class, () -> {
+            validator.validate(character).stream().findFirst().ifPresent(violation -> {
+                throw new ConstraintViolationException(violation.getMessage(), null);
+            });
+            entityManager.persistAndFlush(character);
+        });
+
+        assertTrue(exception.getMessage().contains("must not be null"));
+    }
+
+    @Test
+    void getCharactersFromEmptyRepository_ReturnsEmptyList() {
+        List<Character> characters = characterRepository.findAll();
+        assertTrue(characters.isEmpty(), "Repository should return empty list if no characters exist");
+    }
+}

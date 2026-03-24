@@ -1,0 +1,43 @@
+package com.tus.characters.repository;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+
+@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
+@DataJpaTest
+class CharacterRepositoryTest {
+
+    @Autowired
+    private CharactersRepository characterRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
+    
+    @Test
+    void findByUser_ReturnsCharacters() {
+        User user = new User();
+        user.setUsername("test");
+        user.setEmail("test@example.com");   // required
+        user.setPassword("password");        // if your entity requires it
+        user = entityManager.persistAndFlush(user); // <-- persist AND flush
+
+        Character character = new Character();
+        character.setLevel(5);
+        character.setUser(user);             // must refer to a persisted User
+        entityManager.persistAndFlush(character);
+
+        List<Character> result = characterRepository.findByUser(user);
+
+        assertEquals(1, result.size());
+    }
+}

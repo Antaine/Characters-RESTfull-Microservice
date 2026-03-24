@@ -1,0 +1,149 @@
+package com.tus.characters.repository;
+
+import com.tus.characters.audit.AuditAwareImpl;
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DataJpaTest
+@Import(AuditAwareImpl.class)  // Import your AuditorAware bean
+@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")  // Enable auditing in this test
+class CharacterRepositoryTest {
+
+    @Autowired
+    private CharactersRepository characterRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Test
+    void findByUser_ReturnsCharacters() {
+        User user = new User();
+        user.setUsername("test");
+        user.setEmail("test@example.com");
+        user.setPassword("password");
+
+        // Persist user first
+        user = entityManager.persistAndFlush(user);
+
+        Character character = new Character();
+        character.setLevel(5);
+        character.setUser(user);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+
+        entityManager.persistAndFlush(character);
+
+        List<Character> result = characterRepository.findByUser(user);
+
+        assertEquals(1, result.size());
+    }
+    
+    @Test
+    void deleteCharacter_CallsRepositoryDelete() {
+        // 1️⃣ Create and persist User first
+        User user = new User();
+        user.setUsername("testUser");
+        user.setEmail("test@example.com");
+        user.setPassword("password");
+        user = entityManager.persistAndFlush(user);
+
+        // 2️⃣ Create Character linked to User
+        Character character = new Character();
+        character.setLevel(5);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+        character.setUser(user); // Important!
+        character = entityManager.persistAndFlush(character);
+
+        // 3️⃣ Delete Character
+        characterRepository.deleteById(character.getCharacterId());
+
+        // 4️⃣ Assert deletion
+        boolean exists = characterRepository.existsById(character.getCharacterId());
+        assertFalse(exists, "Character should be deleted");
+    }
+    
+    @Test
+    void testUpdateCharacter_InvalidLevel_ThrowsException() {
+        // Create Character
+        Character tempCharacter = new Character();
+        tempCharacter.setLevel(5);
+        tempCharacter.setCharacterClass("Warrior");
+        tempCharacter.setCharacterRace("Human");
+        User user = new User();
+        user.setUsername("testUser");
+        user.setEmail("test@example.com");
+        user.setPassword("password");
+        user = entityManager.persistAndFlush(user);
+        tempCharacter.setUser(user);
+
+        // Persist and assign to a final variable
+        final Character character = entityManager.persistAndFlush(tempCharacter);
+
+        // Modify level to invalid value
+        character.setLevel(25); // assuming max allowed level is 20
+
+        // Expect exception when flushing
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            entityManager.persistAndFlush(character);
+        });
+
+        String expectedMsg = "level"; 
+        assertTrue(exception.getMessage().contains(expectedMsg));
+    }
+    
+    @Test
+    void saveAndRetrieveCharacter() {
+        User user = new User();
+        user.setUsername("tester");
+        user.setEmail("tester@example.com");
+        user.setPassword("password");
+        user = entityManager.persistAndFlush(user);
+
+        Character character = new Character();
+        character.setLevel(7);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+        character.setUser(user);
+        character = entityManager.persistAndFlush(character);
+
+        Character retrieved = characterRepository.findById(character.getCharacterId()).orElse(null);
+        assertNotNull(retrieved);
+        assertEquals(7, retrieved.getLevel());
+        assertEquals("Mage", retrieved.getCharacterClass());
+    }
+    
+    @Test
+    void createCharacter_NullClassOrRace_ThrowsException() {
+        Character character = new Character();
+        character.setLevel(5);
+        character.setCharacterClass(null); // invalid
+        character.setCharacterRace(null);  // invalid
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            entityManager.persistAndFlush(character);
+        });
+
+        assertTrue(exception.getMessage().contains("not-null"), "Should throw not-null constraint violation");
+    }
+    
+    @Test
+    void getCharactersFromEmptyRepository_ReturnsEmptyList() {
+        List<Character> characters = characterRepository.findAll();
+        assertTrue(characters.isEmpty(), "Repository should return empty list if no characters exist");
+    }
+    
+}

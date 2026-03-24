@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterServiceImplTest" project="characters" tests="22" started="22" failures="3" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.79" displayname="CharacterServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]">
+    <testcase name="testDeleteCharacter_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.72" displayname="testDeleteCharacter_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testDeleteCharacter_Success()]"/>
+    <testcase name="testUpdateCharacter_UserNotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.013" displayname="testUpdateCharacter_UserNotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testUpdateCharacter_UserNotFound()]">
+      <failure>
+        <expected>class com.tus.characters.exceptions.ResourceNotFoundException</expected>
+        <actual>class java.lang.IllegalArgumentException</actual>
+        org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;com.tus.characters.exceptions.ResourceNotFoundException&gt; but was: &lt;java.lang.IllegalArgumentException&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)&#13;
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.testUpdateCharacter_UserNotFound(CharacterServiceImplTest.java:320)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+Caused by: java.lang.IllegalArgumentException: Level must be between 1 and 20&#13;
+	at com.tus.characters.service.impl.CharacterServiceImpl.updateCharacter(CharacterServiceImpl.java:90)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.lambda$5(CharacterServiceImplTest.java:321)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)&#13;
+	... 6 more&#13;
+&#13;
+
+      </failure>
+    </testcase>
+    <testcase name="testGetAllCharacters" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.003" displayname="testGetAllCharacters()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetAllCharacters()]"/>
+    <testcase name="testGetCharacterById_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testGetCharacterById_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharacterById_Success()]"/>
+    <testcase name="createCharacter_CallsCharacterRepositorySave" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.007" displayname="createCharacter_CallsCharacterRepositorySave()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:createCharacter_CallsCharacterRepositorySave()]"/>
+    <testcase name="testUpdateCharacter_InvalidLevel_ThrowsException" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testUpdateCharacter_InvalidLevel_ThrowsException()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testUpdateCharacter_InvalidLevel_ThrowsException()]">
+      <failure>
+        <expected>Character level must be between 1 and 100</expected>
+        <actual>Level must be between 1 and 20</actual>
+        org.opentest4j.AssertionFailedError: expected: &lt;Character level must be between 1 and 100&gt; but was: &lt;Level must be between 1 and 20&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)&#13;
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)&#13;
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.testUpdateCharacter_InvalidLevel_ThrowsException(CharacterServiceImplTest.java:361)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+
+      </failure>
+    </testcase>
+    <testcase name="testGetAllCharacters_Empty" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testGetAllCharacters_Empty()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetAllCharacters_Empty()]"/>
+    <testcase name="testGetCharactersByUser" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.003" displayname="testGetCharactersByUser()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersByUser()]"/>
+    <testcase name="testUpdateCharacter_CharacterNotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testUpdateCharacter_CharacterNotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testUpdateCharacter_CharacterNotFound()]">
+      <failure>
+        <expected>class com.tus.characters.exceptions.ResourceNotFoundException</expected>
+        <actual>class java.lang.IllegalArgumentException</actual>
+        org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;com.tus.characters.exceptions.ResourceNotFoundException&gt; but was: &lt;java.lang.IllegalArgumentException&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)&#13;
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.testUpdateCharacter_CharacterNotFound(CharacterServiceImplTest.java:306)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+Caused by: java.lang.IllegalArgumentException: Level must be between 1 and 20&#13;
+	at com.tus.characters.service.impl.CharacterServiceImpl.updateCharacter(CharacterServiceImpl.java:90)&#13;
+	at com.tus.characters.service.impl.CharacterServiceImplTest.lambda$4(CharacterServiceImplTest.java:307)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)&#13;
+	... 6 more&#13;
+&#13;
+
+      </failure>
+    </testcase>
+    <testcase name="testGetCharactersByDateRange" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.004" displayname="testGetCharactersByDateRange()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersByDateRange()]"/>
+    <testcase name="testGetCharacterById_NotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testGetCharacterById_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharacterById_NotFound()]"/>
+    <testcase name="testGetCharactersByUserId_UserNotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testGetCharactersByUserId_UserNotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersByUserId_UserNotFound()]"/>
+    <testcase name="testGetCharacterById_InvalidId" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testGetCharacterById_InvalidId()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharacterById_InvalidId()]"/>
+    <testcase name="testCreateCharacter_UserNotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testCreateCharacter_UserNotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testCreateCharacter_UserNotFound()]"/>
+    <testcase name="testCreateCharacter_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.001" displayname="testCreateCharacter_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testCreateCharacter_Success()]"/>
+    <testcase name="testGetCharactersPage_InvalidDirection" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testGetCharactersPage_InvalidDirection()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersPage_InvalidDirection()]"/>
+    <testcase name="createCharacter_CallsUserRepositoryFindById" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.001" displayname="createCharacter_CallsUserRepositoryFindById()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:createCharacter_CallsUserRepositoryFindById()]"/>
+    <testcase name="testUpdateCharacter_Success" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.001" displayname="testUpdateCharacter_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testUpdateCharacter_Success()]"/>
+    <testcase name="testUpdateCharacter_SameData_NoUnexpectedChanges" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.003" displayname="testUpdateCharacter_SameData_NoUnexpectedChanges()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testUpdateCharacter_SameData_NoUnexpectedChanges()]"/>
+    <testcase name="testGetCharactersPage_InvalidSortField" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.001" displayname="testGetCharactersPage_InvalidSortField()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersPage_InvalidSortField()]"/>
+    <testcase name="testDeleteCharacter_NotFound" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.002" displayname="testDeleteCharacter_NotFound()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testDeleteCharacter_NotFound()]"/>
+    <testcase name="testGetCharactersPage" classname="com.tus.characters.service.impl.CharacterServiceImplTest" time="0.007" displayname="testGetCharactersPage()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.service.impl.CharacterServiceImplTest]/[method:testGetCharactersPage()]"/>
+  </testsuite>
+</testrun>

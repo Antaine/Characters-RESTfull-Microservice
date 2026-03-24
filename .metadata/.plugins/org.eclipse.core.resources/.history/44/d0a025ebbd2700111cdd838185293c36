@@ -1,0 +1,32 @@
+package com.tus.characters.repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+@DataJpaTest
+class CharacterRepositoryTest {
+
+    @Autowired
+    private CharactersRepository characterRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
+    
+    @Test
+    void findByUser_ReturnsCharacters() {
+        User user = new User();
+        user.setUsername("test");
+        entityManager.persist(user);
+
+        Character character = new Character();
+        character.setLevel(5);
+        character.setUser(user);
+        entityManager.persist(character);
+
+        List<Character> result = characterRepository.findByUser(user);
+
+        assertEquals(1, result.size());
+    }
+
+}

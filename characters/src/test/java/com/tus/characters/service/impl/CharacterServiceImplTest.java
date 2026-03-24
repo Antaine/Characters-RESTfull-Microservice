@@ -196,6 +196,69 @@ class CharacterServiceImplTest {
 	    assertTrue(result.isEmpty());
 	    verify(characterRepository).findAll();
 	}
+	
+	@Test
+	void testUpdateCharacter_SameData_NoUnexpectedChanges() {
+	    // Arrange
+	    Character existing = createCharacterWithUser(1L, 10);
+	    existing.setCharacterClass("Warrior");
+	    existing.setCharacterRace("Human");
+	    
+	    CharacterDto dto = new CharacterDto();
+	    dto.setUserId(1L);
+	    dto.setLevel(10); // same as existing
+	    dto.setCharacterClass("Warrior");
+	    dto.setCharacterRace("Human");
+	    
+	    when(characterRepository.findById(1L)).thenReturn(Optional.of(existing));
+	    when(userRepository.findById(1L)).thenReturn(Optional.of(existing.getUser()));
+
+	    // Act
+	    characterService.updateCharacter(1L, dto);
+
+	    // Assert
+	    assertEquals(10, existing.getLevel());
+	    assertEquals("Warrior", existing.getCharacterClass());
+	    assertEquals("Human", existing.getCharacterRace());
+	    assertEquals(1L, existing.getUser().getUserId());
+	    
+	    verify(characterRepository).save(existing);
+	}
+	
+	@Test
+	void createCharacter_CallsUserRepositoryFindById() {
+	    CharacterDto dto = new CharacterDto();
+	    dto.setUserId(1L);
+	    dto.setLevel(5);
+	    
+	    User user = new User();
+	    user.setUserId(1L);
+	    
+	    when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+	    when(characterRepository.save(any())).thenReturn(createCharacterWithUser(1L, 5));
+	    
+	    characterService.createCharacter(dto);
+	    
+	    verify(userRepository, times(1)).findById(1L);
+	}
+	
+	@Test
+	void createCharacter_CallsCharacterRepositorySave() {
+	    CharacterDto dto = new CharacterDto();
+	    dto.setUserId(1L);
+	    dto.setLevel(5);
+	    
+	    User user = new User();
+	    user.setUserId(1L);
+	    
+	    when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+	    when(characterRepository.save(any())).thenReturn(createCharacterWithUser(1L, 5));
+	    
+	    characterService.createCharacter(dto);
+	    
+	    verify(characterRepository, times(1)).save(any(Character.class));
+	}
+	
 	// Negative Testing
 	@Test
 	void testCreateCharacter_UserNotFound() {
@@ -277,5 +340,42 @@ class CharacterServiceImplTest {
 	    assertThrows(ResourceNotFoundException.class, () -> characterService.getCharactersByUserId(userId));
 	    verify(characterRepository, never()).findByUser(any());
 	}
+	
+	//Update Project code for this
+/*	@Test
+	void testUpdateCharacter_InvalidLevel_ThrowsException() {
+	    // Arrange
+	    Character existing = createCharacterWithUser(1L, 10);
+	    CharacterDto dto = new CharacterDto();
+	    dto.setUserId(1L);
+	    dto.setLevel(-5); // invalid level
+	    dto.setCharacterClass("Warrior");
+	    dto.setCharacterRace("Human");
+
+	    when(characterRepository.findById(1L)).thenReturn(Optional.of(existing));
+	    when(userRepository.findById(1L)).thenReturn(Optional.of(existing.getUser()));
+
+	    // Act & Assert
+	    IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+	        () -> characterService.updateCharacter(1L, dto));
+
+	    assertEquals("Character level must be between 1 and 20", ex.getMessage());
+
+	    // Verify repository save is never called
+	    verify(characterRepository, never()).save(any());
+	}*/
+	
+	@Test
+	void deleteCharacter_CallsRepositoryDelete() {
+	    Character character = createCharacterWithUser(1L, 5);
+
+	    when(characterRepository.findById(1L)).thenReturn(Optional.of(character));
+
+	    characterService.deleteCharacter(1L);
+
+	    verify(characterRepository, times(1)).delete(character);
+	}
+	
+	
 
 }

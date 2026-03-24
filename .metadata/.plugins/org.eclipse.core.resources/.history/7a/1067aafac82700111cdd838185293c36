@@ -1,0 +1,65 @@
+package com.tus.characters.repository;
+
+import com.tus.characters.audit.AuditAwareImpl;
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.test.context.TestPropertySource;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@DataJpaTest
+@Import(AuditAwareImpl.class)  // Import your AuditorAware bean
+@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")  // Enable auditing in this test
+class CharacterRepositoryTest {
+
+    @Autowired
+    private CharactersRepository characterRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Test
+    void findByUser_ReturnsCharacters() {
+        User user = new User();
+        user.setUsername("test");
+        user.setEmail("test@example.com");
+        user.setPassword("password");
+
+        // Persist user first
+        user = entityManager.persistAndFlush(user);
+
+        Character character = new Character();
+        character.setLevel(5);
+        character.setUser(user);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+
+        entityManager.persistAndFlush(character);
+
+        List<Character> result = characterRepository.findByUser(user);
+
+        assertEquals(1, result.size());
+    }
+    
+    @Test
+    void deleteCharacter_CallsRepositoryDelete() {
+        Character character = new Character();
+        character.setLevel(5);
+        character.setCharacterClass("Mage");
+        character.setCharacterRace("Elf");
+        entityManager.persistAndFlush(character);
+
+        characterRepository.deleteById(character.getCharacterId());
+
+        boolean exists = characterRepository.existsById(character.getCharacterId());
+        assertFalse(exists, "Character should be deleted");
+    }
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterRepositoryTest" project="characters" tests="1" started="1" failures="0" errors="1" ignored="0">
+  <testsuite name="com.tus.characters.repository.CharacterRepositoryTest" time="0.004" displayname="CharacterRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]">
+    <testcase name="findByUser_ReturnsCharacters" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.004" displayname="findByUser_ReturnsCharacters()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:findByUser_ReturnsCharacters()]">
+      <error>java.lang.IllegalStateException: Failed to load ApplicationContext for [MergedContextConfiguration@6e22d6bf testClass = com.tus.characters.repository.CharacterRepositoryTest, locations = [], classes = [com.tus.characters.CharactersApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper=true"], contextCustomizers = [[ImportsContextCustomizer@32121140 key = [@org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest(bootstrapMode=DEFAULT, excludeAutoConfiguration={}, excludeFilters={}, includeFilters={}, properties={}, showSql=true, useDefaultFilters=true), @org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa(), @org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager(), @org.springframework.context.annotation.Import(value={org.springframework.data.jpa.repository.config.JpaAuditingRegistrar.class}), @org.springframework.context.annotation.Import(value={org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector.class}), @org.springframework.boot.test.autoconfigure.filter.TypeExcludeFilters(value={org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTypeExcludeFilter.class}), @org.springframework.data.jpa.repository.config.EnableJpaAuditing(auditorAwareRef="auditAwareImpl", setDates=true, dateTimeProviderRef="", modifyOnCreate=true), @org.springframework.aot.hint.annotation.Reflective(processors={org.springframework.aot.hint.annotation.SimpleReflectiveProcessor.class}, value={org.springframework.aot.hint.annotation.SimpleReflectiveProcessor.class}), @org.springframework.boot.autoconfigure.ImportAutoConfiguration(classes={}, exclude={}, value={}), @org.springframework.boot.test.autoconfigure.properties.PropertyMapping(skip=NO, value="spring.test.database"), @org.springframework.boot.test.autoconfigure.core.AutoConfigureCache(cacheProvider=NONE), @org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase(connection=NONE, replace=ANY), @org.apiguardian.api.API(consumers={"*"}, since="5.0", status=STABLE), @org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration(enabled=false), @org.springframework.transaction.annotation.Transactional(isolation=DEFAULT, label={}, noRollbackFor={}, noRollbackForClassName={}, propagation=REQUIRED, readOnly=false, rollbackFor={}, rollbackForClassName={}, timeout=-1, timeoutString="", transactionManager="", value=""), @org.springframework.test.context.BootstrapWith(value=org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTestContextBootstrapper.class)]], org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@512baff6, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1800a575, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.reactor.netty.DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory$DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer@673be18f, org.springframework.boot.test.autoconfigure.OnFailureConditionReportContextCustomizerFactory$OnFailureConditionReportContextCustomizer@6ce86ce1, org.springframework.boot.test.autoconfigure.OverrideAutoConfigurationContextCustomizerFactory$DisableAutoConfigurationContextCustomizer@32c4e8b2, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.filter.TypeExcludeFiltersContextCustomizer@34be3d80, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@1f854853, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@336f1079, org.springframework.boot.test.context.SpringBootTestAnnotation@102faf8e], contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]&#13;
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)&#13;
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)&#13;
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:142)&#13;
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:98)&#13;
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)&#13;
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:163)&#13;
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)&#13;
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)&#13;
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)&#13;
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)&#13;
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)&#13;
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)&#13;
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)&#13;
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)&#13;
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)&#13;
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)&#13;
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)&#13;
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jpaAuditingHandler': Cannot create inner bean '(inner bean)#7b24d5e4' of type [org.springframework.aop.framework.ProxyFactoryBean] while setting bean property 'auditorAware'&#13;
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBeanValue(BeanDefinitionValueResolver.java:421)&#13;
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.lambda$resolveValueIfNecessary$1(BeanDefinitionValueResolver.java:153)&#13;
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:262)&#13;
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:152)&#13;
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1705)&#13;
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1454)&#13;
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)&#13;
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)&#13;
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)&#13;
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)&#13;
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)&#13;
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)&#13;
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)&#13;
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:971)&#13;
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)&#13;
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)&#13;
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)&#13;
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)&#13;
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)&#13;
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)&#13;
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)&#13;
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1463)&#13;
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)&#13;
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)&#13;
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)&#13;
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)&#13;
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)&#13;
+	... 19 more&#13;
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#7b24d5e4': FactoryBean threw exception on object creation&#13;
+	at org.springframework.beans.factory.support.FactoryBeanRegistrySupport.doGetObjectFromFactoryBean(FactoryBeanRegistrySupport.java:188)&#13;
+	at org.springframework.beans.factory.support.FactoryBeanRegistrySupport.getObjectFromFactoryBean(FactoryBeanRegistrySupport.java:158)&#13;
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBeanValue(BeanDefinitionValueResolver.java:410)&#13;
+	... 45 more&#13;
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'auditAwareImpl' available&#13;
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanDefinition(DefaultListableBeanFactory.java:895)&#13;
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getMergedLocalBeanDefinition(AbstractBeanFactory.java:1362)&#13;
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getType(AbstractBeanFactory.java:735)&#13;
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getType(AbstractBeanFactory.java:709)&#13;
+	at org.springframework.aop.target.AbstractBeanFactoryBasedTargetSource.getTargetClass(AbstractBeanFactoryBasedTargetSource.java:142)&#13;
+	at org.springframework.aop.framework.AdvisedSupport.getTargetClass(AdvisedSupport.java:182)&#13;
+	at org.springframework.aop.framework.ProxyFactoryBean.getSingletonInstance(ProxyFactoryBean.java:312)&#13;
+	at org.springframework.aop.framework.ProxyFactoryBean.getObject(ProxyFactoryBean.java:253)&#13;
+	at org.springframework.beans.factory.support.FactoryBeanRegistrySupport.doGetObjectFromFactoryBean(FactoryBeanRegistrySupport.java:182)&#13;
+	... 47 more&#13;
+&#13;
+</error>
+    </testcase>
+  </testsuite>
+</testrun>

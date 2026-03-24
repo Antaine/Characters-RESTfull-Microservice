@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterRepositoryTest" project="characters" tests="6" started="6" failures="2" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.repository.CharacterRepositoryTest" time="0.558" displayname="CharacterRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]">
+    <testcase name="createCharacter_NullClassOrRace_ThrowsException" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.295" displayname="createCharacter_NullClassOrRace_ThrowsException()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:createCharacter_NullClassOrRace_ThrowsException()]">
+      <failure>
+        <expected>true</expected>
+        <actual>false</actual>
+        org.opentest4j.AssertionFailedError: Should throw not-null constraint violation ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)&#13;
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)&#13;
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)&#13;
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)&#13;
+	at com.tus.characters.repository.CharacterRepositoryTest.createCharacter_NullClassOrRace_ThrowsException(CharacterRepositoryTest.java:128)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+
+      </failure>
+    </testcase>
+    <testcase name="testUpdateCharacter_InvalidLevel_ThrowsException" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.015" displayname="testUpdateCharacter_InvalidLevel_ThrowsException()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:testUpdateCharacter_InvalidLevel_ThrowsException()]">
+      <failure>org.opentest4j.AssertionFailedError: Expected java.lang.RuntimeException to be thrown, but nothing was thrown.&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)&#13;
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)&#13;
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)&#13;
+	at com.tus.characters.repository.CharacterRepositoryTest.testUpdateCharacter_InvalidLevel_ThrowsException(CharacterRepositoryTest.java:84)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="getCharactersFromEmptyRepository_ReturnsEmptyList" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.068" displayname="getCharactersFromEmptyRepository_ReturnsEmptyList()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:getCharactersFromEmptyRepository_ReturnsEmptyList()]"/>
+    <testcase name="saveAndRetrieveCharacter" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.01" displayname="saveAndRetrieveCharacter()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:saveAndRetrieveCharacter()]"/>
+    <testcase name="findByUser_ReturnsCharacters" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.021" displayname="findByUser_ReturnsCharacters()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:findByUser_ReturnsCharacters()]"/>
+    <testcase name="deleteCharacter_CallsRepositoryDelete" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.143" displayname="deleteCharacter_CallsRepositoryDelete()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:deleteCharacter_CallsRepositoryDelete()]"/>
+  </testsuite>
+</testrun>

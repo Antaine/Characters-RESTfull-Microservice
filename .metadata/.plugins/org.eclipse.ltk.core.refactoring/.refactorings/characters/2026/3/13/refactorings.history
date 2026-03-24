@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;com.tus.characters.controller.CharacterControllerTest.java&apos; to &apos;CharactersControllerTest.java&apos;&#x0D;&#x0A;- Original project: &apos;characters&apos;&#x0D;&#x0A;- Original element: &apos;com.tus.characters.controller.CharacterControllerTest.java&apos;&#x0D;&#x0A;- Renamed element: &apos;com.tus.characters.controller.CharactersControllerTest.java&apos;" description="Rename compilation unit &apos;CharacterControllerTest.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src\/test\/java=/test=/true=/=/optional=/true=/=/maven.pomderived=/true=/&lt;com.tus.characters.controller{CharacterControllerTest.java" name="CharactersControllerTest.java" references="false" stamp="1774382458534" version="1.0"/>
+</session>

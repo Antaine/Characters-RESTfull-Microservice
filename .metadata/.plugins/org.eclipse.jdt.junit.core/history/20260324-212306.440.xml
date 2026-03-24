@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharactersControllerTest" project="characters" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.controller.CharactersControllerTest" time="0.22" displayname="CharactersControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.CharactersControllerTest]">
+    <testcase name="createCharacter_InvalidLevel_ReturnsBadRequest" classname="com.tus.characters.controller.CharactersControllerTest" time="0.15" displayname="createCharacter_InvalidLevel_ReturnsBadRequest()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.CharactersControllerTest]/[method:createCharacter_InvalidLevel_ReturnsBadRequest()]"/>
+    <testcase name="createCharacter_Valid_ReturnsCreated" classname="com.tus.characters.controller.CharactersControllerTest" time="0.058" displayname="createCharacter_Valid_ReturnsCreated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.CharactersControllerTest]/[method:createCharacter_Valid_ReturnsCreated()]"/>
+    <testcase name="getAllCharacters_ReturnsOk" classname="com.tus.characters.controller.CharactersControllerTest" time="0.009" displayname="getAllCharacters_ReturnsOk()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.CharactersControllerTest]/[method:getAllCharacters_ReturnsOk()]"/>
+  </testsuite>
+</testrun>

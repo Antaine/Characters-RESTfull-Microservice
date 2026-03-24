@@ -143,6 +143,32 @@ class UserServiceImplTest {
         assertTrue(result.isEmpty());
         verify(userRepository, times(1)).findAll();
     }
+	
+	void testDeleteUser_NotFound_DoesNotThrow() {
+	    Long userId = 2L;
+
+	    when(userRepository.existsById(userId)).thenReturn(false);
+
+	    assertDoesNotThrow(() -> userService.deleteUser(userId));
+	    verify(userRepository, times(1)).existsById(userId);
+	    verify(userRepository, never()).deleteById(any());
+	}
+	
+	@Test
+	void testDeleteUser_Twice_ThrowsOnSecondCall() {
+	    Long userId = 1L;
+
+	    // First call: user exists
+	    when(userRepository.existsById(userId)).thenReturn(true);
+	    userService.deleteUser(userId);
+	    verify(userRepository, times(1)).deleteById(userId);
+
+	    // Second call: user does not exist, expect exception
+	    when(userRepository.existsById(userId)).thenReturn(false);
+	    ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class,
+	            () -> userService.deleteUser(userId));
+	    assertEquals("User not found with userId : '1'", ex.getMessage());
+	}
 
 	//Negative Testing
 	
@@ -180,7 +206,7 @@ class UserServiceImplTest {
 	    when(userRepository.findById(userId)).thenReturn(Optional.empty());
 	    // Act & Assert
 	    
-	    assertThrows(RuntimeException.class, () -> userService.updateUser(userId, userDto));
+	    assertThrows(ResourceNotFoundException.class, () -> userService.updateUser(userId, userDto));
 	    // Verify repository interactions
 	    verify(userRepository, times(1)).findById(userId);
 	    verify(userRepository, never()).save(any(User.class));
@@ -209,6 +235,18 @@ class UserServiceImplTest {
 	    assertThrows(RuntimeException.class,() -> userService.createUser(dto));
 	}
 	
-	//Component Testing
+	@Test
+	void createUser_CallsUserRepositorySave() {
+	    UserDto dto = new UserDto();
+	    dto.setEmail("test@test.com");
+
+	    when(userRepository.save(any(User.class)))
+	        .thenReturn(new User());
+
+	    userService.createUser(dto);
+
+	    verify(userRepository, times(1)).save(any(User.class));
+	}
+	
 	
 }
