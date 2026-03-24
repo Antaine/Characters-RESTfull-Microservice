@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -91,6 +93,56 @@ class UserServiceImplTest {
 	    verify(userRepository, times(1)).existsById(userId);
 	    verify(userRepository, times(1)).deleteById(userId);
 	}
+	
+	@Test
+    void testGetAllUsers_Success() {
+        // Arrange
+        User user1 = new User();
+        user1.setUserId(1L);
+        user1.setUsername("userOne");
+        user1.setEmail("one@test.com");
+        user1.setPassword("pass123");
+        user1.setMobileNumber("1111111111");
+
+        User user2 = new User();
+        user2.setUserId(2L);
+        user2.setUsername("userTwo");
+        user2.setEmail("two@test.com");
+        user2.setPassword("pass456");
+        user2.setMobileNumber("2222222222");
+
+        when(userRepository.findAll()).thenReturn(List.of(user1, user2));
+
+        // Act
+        List<UserDto> result = userService.getAllUsers();
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        
+        // Verify mapping for first user
+        assertEquals(1L, result.get(0).getUserId());
+        assertEquals("userOne", result.get(0).getUsername());
+        assertEquals("one@test.com", result.get(0).getEmail());
+        assertEquals("pass123", result.get(0).getPassword());
+        assertEquals("1111111111", result.get(0).getMobileNumber());
+
+        verify(userRepository, times(1)).findAll();
+    }
+	
+	@Test
+    void testGetAllUsers_EmptyList() {
+        // Arrange
+        when(userRepository.findAll()).thenReturn(List.of());
+
+        // Act
+        List<UserDto> result = userService.getAllUsers();
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(userRepository, times(1)).findAll();
+    }
 
 	//Negative Testing
 	
@@ -156,4 +208,7 @@ class UserServiceImplTest {
 	    when(userRepository.save(any())).thenThrow(new RuntimeException("Duplicate email"));
 	    assertThrows(RuntimeException.class,() -> userService.createUser(dto));
 	}
+	
+	//Component Testing
+	
 }

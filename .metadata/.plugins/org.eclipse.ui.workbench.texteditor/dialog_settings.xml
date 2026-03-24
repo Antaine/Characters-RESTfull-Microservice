@@ -4,6 +4,10 @@
 	<section name="java.lang.Class">
 		<item key="replaceBarOpen" value="false"/>
 		<list key="findhistory">
+			<item value="RuntimeException"/>
+			<item value="characterDto.getUserId().toString()"/>
+			<item value="characterDTO.ge"/>
+			<item value=".orElseThrow(() -&gt; new RuntimeException"/>
 			<item value="assertThrows(RuntimeException.class,"/>
 			<item value="valid"/>
 			<item value="getCharactersPaginated(int page, int size)"/>

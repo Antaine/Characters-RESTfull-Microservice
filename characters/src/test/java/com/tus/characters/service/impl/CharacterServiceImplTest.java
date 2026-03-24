@@ -269,5 +269,13 @@ class CharacterServiceImplTest {
 	    assertThrows(IllegalArgumentException.class, () ->
 	        characterService.getCharactersPage(0, 5, "characterId", "wrong"));
 	}
+	
+	@Test
+	void testGetCharactersByUserId_UserNotFound() {
+	    Long userId = 1L;
+	    when(userRepository.findById(userId)).thenReturn(Optional.empty());
+	    assertThrows(ResourceNotFoundException.class, () -> characterService.getCharactersByUserId(userId));
+	    verify(characterRepository, never()).findByUser(any());
+	}
 
 }

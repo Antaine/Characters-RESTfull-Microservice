@@ -66,4 +66,44 @@ class UserMapperTest {
         assertEquals("pass123", result.getPassword());
         assertEquals("1111111111", result.getMobileNumber());
     }
+    
+    @Test
+    void testMapUserToDto_VerifyFields() {
+        // Arrange
+        User user = new User();
+        user.setUserId(1L);
+        user.setUsername("TestUser");
+        user.setEmail("test@test.com");
+        user.setMobileNumber("1234567890");
+        user.setPassword("pass123");
+
+        UserDto dto = new UserDto(); // Create the target object first
+
+        // Act
+        UserMapper.mapToUserDto(user, dto); // Pass both in
+
+        // Assert
+        assertEquals("TestUser", dto.getUsername());
+        assertEquals("test@test.com", dto.getEmail());
+        assertEquals("1234567890", dto.getMobileNumber());
+    }
+
+    @Test
+    void testMapToUserDto_NullCharactersList() {
+        // Arrange
+        User user = new User();
+        user.setUserId(1L);
+        user.setCharacters(null); // The specific branch we want to test
+
+        UserDto dto = new UserDto();
+
+        // Act
+        UserMapper.mapToUserDto(user, dto);
+
+        // Assert
+        assertNotNull(dto);
+        // This proves your 'if(user.getCharacters() != null)' check worked 
+        // and didn't throw a NullPointerException
+        assertNull(dto.getCharacters()); 
+    }
 }

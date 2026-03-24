@@ -47,4 +47,52 @@ class CharacterMapperTest {
         assertEquals(10, character.getLevel());
         assertEquals(user, character.getUser());
     }
+    
+    @Test
+    void testMapToCharacterDto_BoundaryLevel1() {
+        User user = new User();
+        user.setUserId(1L);
+        Character character = new Character();
+        character.setLevel(1);
+        character.setUser(user);
+        CharacterDto dto = CharacterMapper.mapToCharacterDto(character);
+        assertEquals(1, dto.getLevel());
+        assertEquals(1L, dto.getUserId());
+    }
+
+    @Test
+    void testMapToCharacterDto_BoundaryLevel20() {
+        User user = new User();
+        user.setUserId(1L);
+        Character character = new Character();
+        character.setLevel(20);
+        character.setUser(user);
+        CharacterDto dto = CharacterMapper.mapToCharacterDto(character);
+        assertEquals(20, dto.getLevel());
+        assertEquals(1L, dto.getUserId());
+    }
+    
+    @Test
+    void testMapToCharacterDto_InvalidLevelBelowMin() {
+        User user = new User();
+        user.setUserId(1L);
+        Character character = new Character();
+        character.setLevel(0);
+        character.setUser(user);
+        CharacterDto dto = CharacterMapper.mapToCharacterDto(character);
+        assertEquals(0, dto.getLevel());
+        assertEquals(1L, dto.getUserId());
+    }
+    
+    @Test
+    void testMapToCharacterDto_InvalidLevelAboveMax() {
+        User user = new User();
+        user.setUserId(1L);
+        Character character = new Character();
+        character.setLevel(21);
+        character.setUser(user);
+        CharacterDto dto = CharacterMapper.mapToCharacterDto(character);
+        assertEquals(21, dto.getLevel());
+        assertEquals(1L, dto.getUserId());
+    }
 }

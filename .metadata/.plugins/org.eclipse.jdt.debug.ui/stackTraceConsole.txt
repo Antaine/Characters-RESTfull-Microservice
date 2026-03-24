@@ -3,15 +3,15 @@ org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected:
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
 	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
-	at com.tus.characters.service.impl.UserServiceImplTest.testUpdateUser_NotFound(UserServiceImplTest.java:124)
+	at com.tus.characters.service.impl.UserServiceImplTest.testGetUserById_NotFound(UserServiceImplTest.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-Caused by: java.lang.RuntimeException: User not found with ID: 1
-	at com.tus.characters.service.impl.UserServiceImpl.lambda$2(UserServiceImpl.java:61)
+Caused by: java.lang.RuntimeException: User not found with userId: 1
+	at com.tus.characters.service.impl.UserServiceImpl.lambda$0(UserServiceImpl.java:34)
 	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
-	at com.tus.characters.service.impl.UserServiceImpl.updateUser(UserServiceImpl.java:61)
-	at com.tus.characters.service.impl.UserServiceImplTest.lambda$3(UserServiceImplTest.java:124)
+	at com.tus.characters.service.impl.UserServiceImpl.getUserById(UserServiceImpl.java:34)
+	at com.tus.characters.service.impl.UserServiceImplTest.lambda$1(UserServiceImplTest.java:106)
 	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
 	... 6 more
 
