@@ -1,0 +1,46 @@
+package com.tus.characters.controller;
+
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+
+@WebMvcTest(controllers = UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
+ public class UserControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private IUserService userService; // Mock the user service
+
+    @Test
+    void createUser_ValidRequest_ReturnsCreated() throws Exception {
+        String json = """
+            {
+                "username": "tester",
+                "email": "test@example.com",
+                "password": "securePassword123"
+            }
+        """;
+
+        mockMvc.perform(post("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void createUser_InvalidEmail_ReturnsBadRequest() throws Exception {
+        String json = """
+            {
+                "username": "tester",
+                "email": "not-an-email",
+                "password": "password"
+            }
+        """;
+
+        mockMvc.perform(post("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isBadRequest());
+    }
+}

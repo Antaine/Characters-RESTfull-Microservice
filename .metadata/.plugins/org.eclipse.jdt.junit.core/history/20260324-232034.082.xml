@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserRespositoryTest" project="characters" tests="1" started="1" failures="0" errors="1" ignored="0">
+  <testsuite name="com.tus.characters.repository.UserRespositoryTest" time="0.009" displayname="UserRespositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.UserRespositoryTest]">
+    <testcase name="createUser_CallsUserRepositorySave" classname="com.tus.characters.repository.UserRespositoryTest" time="0.009" displayname="createUser_CallsUserRepositorySave()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.UserRespositoryTest]/[method:createUser_CallsUserRepositorySave()]">
+      <error>java.lang.NullPointerException: Cannot invoke "org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager.persistAndFlush(Object)" because "this.entityManager" is null&#13;
+	at com.tus.characters.repository.UserRespositoryTest.createUser_CallsUserRepositorySave(UserRespositoryTest.java:22)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+  </testsuite>
+</testrun>

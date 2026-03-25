@@ -1,6 +1,8 @@
 package com.tus.characters.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import java.time.LocalDate;
 
@@ -23,6 +25,8 @@ public class Character extends BaseEntity {
     @Column(name = "character_race", nullable = false, length = 50)
     private String characterRace;
     
+    @Min(value = 1, message = "Level must be at least 1")
+    @Max(value = 20, message = "Level cannot exceed 20")
     @Column(nullable = false)
     private int level;
 

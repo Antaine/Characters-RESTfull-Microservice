@@ -1,0 +1,66 @@
+package com.tus.characters.repository;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import com.tus.characters.audit.AuditAwareImpl;
+import com.tus.characters.entity.Character;
+import com.tus.characters.entity.User;
+
+import java.util.List;
+
+@DataJpaTest // <-- THIS WAS MISSING
+@Import(AuditAwareImpl.class)
+@EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
+class UserRepositoryTest { // Fixed the typo in the class name
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Autowired
+    private CharactersRepository characterRepository; // <-- Needed for the cascade test
+
+    @Test
+    void createUser_CallsUserRepositorySave() {
+        User user = new User();
+        user.setUsername("newuser");
+        user.setEmail("newuser@example.com");
+        user.setPassword("password");
+
+        User saved = entityManager.persistAndFlush(user);
+        assertNotNull(saved.getUserId(), "User should be saved and have an ID");
+    }
+    
+    // I uncommented this and fixed the setup so it proves your database relationships work!
+    @Test
+    void testDeleteUser_CascadesToDeleteCharacters() {
+        User user = new User();
+        user.setUsername("cascadeUser");
+        user.setEmail("cascade@test.com");
+        user.setPassword("password");
+        user = entityManager.persistAndFlush(user);
+
+        Character c1 = new Character();
+        c1.setLevel(1);
+        c1.setCharacterClass("Warrior");
+        c1.setCharacterRace("Human");
+        c1.setUser(user);
+        entityManager.persistAndFlush(c1);
+
+        // Act: Delete the user
+        entityManager.remove(user);
+        entityManager.flush();
+        entityManager.clear(); 
+
+        // Assert: Verify characters are automatically deleted by the database
+        List<Character> remainingChars = characterRepository.findByUser(user);
+        assertTrue(remainingChars.isEmpty(), "Characters should be deleted when their User is deleted");
+    }
+}

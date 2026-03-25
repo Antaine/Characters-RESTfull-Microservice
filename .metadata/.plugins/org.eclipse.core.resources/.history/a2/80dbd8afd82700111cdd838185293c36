@@ -1,0 +1,34 @@
+package com.tus.characters;
+
+import com.tus.characters.dto.CharacterDto;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+// This annotation loads the ENTIRE application (Tomcat, DB, Spring)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class CharacterIntegrationTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate; // Required by your rubric!
+
+    @Test
+    void fullApplicationFlow_CreateCharacter_ReturnsCreated() {
+        // Arrange
+        CharacterDto newChar = new CharacterDto();
+        newChar.setCharacterClass("Rogue");
+        newChar.setCharacterRace("Human");
+        newChar.setLevel(5);
+
+        // Act: Send a real HTTP request across the network to the running app
+        ResponseEntity<String> response = restTemplate.postForEntity("/api/characters", newChar, String.class);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Should return 201 Created");
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserControllerTest" project="characters" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.controller.UserControllerTest" time="0.198" displayname="UserControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.UserControllerTest]">
+    <testcase name="createUser_ValidRequest_ReturnsCreated" classname="com.tus.characters.controller.UserControllerTest" time="0.185" displayname="createUser_ValidRequest_ReturnsCreated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.UserControllerTest]/[method:createUser_ValidRequest_ReturnsCreated()]"/>
+    <testcase name="createUser_InvalidEmail_ReturnsBadRequest" classname="com.tus.characters.controller.UserControllerTest" time="0.012" displayname="createUser_InvalidEmail_ReturnsBadRequest()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.UserControllerTest]/[method:createUser_InvalidEmail_ReturnsBadRequest()]"/>
+  </testsuite>
+</testrun>

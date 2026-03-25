@@ -1,0 +1,70 @@
+package com.tus.characters.controller;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.tus.characters.audit.AuditAwareImpl;
+import com.tus.characters.dto.UserDto;
+import com.tus.characters.entity.User;
+import com.tus.characters.service.IUserService;
+
+@WebMvcTest(controllers = UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@Import(AuditAwareImpl.class)
+public class UserControllerTest {
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@MockBean
+	private IUserService userService; // Mock the user service
+
+	@Test
+	void createUser_ValidRequest_ReturnsCreated() throws Exception {
+	    // 1. Arrange
+	    User mockSavedUser = new User();
+	    mockSavedUser.setUserId(1L);
+	    mockSavedUser.setUsername("tester");
+	    mockSavedUser.setEmail("test@example.com"); // <--- DOUBLE CHECK this is here
+	    
+	    // 2. Stubbing - Make sure the service returns the populated mock
+	    when(userService.createUser(any(UserDto.class))).thenReturn(mockSavedUser);
+
+	    String json = """
+	        {
+	            "username": "tester",
+	            "email": "test@example.com",
+	            "password": "securePassword123"
+	        }
+	    """;
+
+	    // 3. Act & Assert
+	    mockMvc.perform(post("/api/users")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(json))
+	            .andExpect(status().isCreated())
+	            .andExpect(jsonPath("$.username").value("tester"))
+	            .andExpect(jsonPath("$.email").value("test@example.com")); // Should pass now!
+	}
+	@Test
+	void createUser_InvalidEmail_ReturnsBadRequest() throws Exception {
+	    String json = "{\"username\": \"bob\", \"email\": \"not-an-email\", \"password\": \"pass123\"}";
+
+	    mockMvc.perform(post("/api/users")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(json))
+	            .andExpect(status().isBadRequest())
+	            .andExpect(jsonPath("$.email").exists());
+	}
+}

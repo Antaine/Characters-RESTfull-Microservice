@@ -118,4 +118,23 @@ class CharacterRepositoryTest {
         List<Character> characters = characterRepository.findAll();
         assertTrue(characters.isEmpty(), "Repository should return empty list if no characters exist");
     }
-}
+    
+    @Test
+    void testSaveCharacter_InvalidLevel_ThrowsException() {
+        User user = new User();
+        user.setUsername("validUser");
+        user.setEmail("valid@test.com");
+        user.setPassword("password");
+        entityManager.persistAndFlush(user);
+
+        Character invalidChar = new Character();
+        invalidChar.setLevel(25); // Exceeds @Max(20)
+        invalidChar.setCharacterClass("Mage");
+        invalidChar.setCharacterRace("Elf");
+        invalidChar.setUser(user);
+
+        // This asserts that the Jakarta Validation is triggered on persist
+        assertThrows(jakarta.validation.ConstraintViolationException.class, () -> {
+            entityManager.persistAndFlush(invalidChar);
+        });
+}}

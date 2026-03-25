@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterIntegrationTest" project="characters" tests="4" started="4" failures="1" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.CharacterIntegrationTest" time="0.598" displayname="CharacterIntegrationTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]">
+    <testcase name="getCharacters_WithPaginationAndSorting_ReturnsSortedPage" classname="com.tus.characters.CharacterIntegrationTest" time="0.338" displayname="getCharacters_WithPaginationAndSorting_ReturnsSortedPage()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:getCharacters_WithPaginationAndSorting_ReturnsSortedPage()]">
+      <failure>
+        <expected>200 OK</expected>
+        <actual>500 INTERNAL_SERVER_ERROR</actual>
+        org.opentest4j.AssertionFailedError: expected: &lt;200 OK&gt; but was: &lt;500 INTERNAL_SERVER_ERROR&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)&#13;
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)&#13;
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)&#13;
+	at com.tus.characters.CharacterIntegrationTest.getCharacters_WithPaginationAndSorting_ReturnsSortedPage(CharacterIntegrationTest.java:105)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+
+      </failure>
+    </testcase>
+    <testcase name="fullApplicationFlow_CreateCharacter_ReturnsCreated" classname="com.tus.characters.CharacterIntegrationTest" time="0.15" displayname="fullApplicationFlow_CreateCharacter_ReturnsCreated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:fullApplicationFlow_CreateCharacter_ReturnsCreated()]"/>
+    <testcase name="endToEnd_UserCreationToCharacterAssignment_Flow" classname="com.tus.characters.CharacterIntegrationTest" time="0.104" displayname="endToEnd_UserCreationToCharacterAssignment_Flow()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:endToEnd_UserCreationToCharacterAssignment_Flow()]"/>
+    <testcase name="verifyAuditingFields_ArePopulated" classname="com.tus.characters.CharacterIntegrationTest" time="0.005" displayname="verifyAuditingFields_ArePopulated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:verifyAuditingFields_ArePopulated()]"/>
+  </testsuite>
+</testrun>

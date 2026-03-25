@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterIntegrationTest" project="characters" tests="3" started="3" failures="1" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.CharacterIntegrationTest" time="0.583" displayname="CharacterIntegrationTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]">
+    <testcase name="fullApplicationFlow_CreateCharacter_ReturnsCreated" classname="com.tus.characters.CharacterIntegrationTest" time="0.443" displayname="fullApplicationFlow_CreateCharacter_ReturnsCreated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:fullApplicationFlow_CreateCharacter_ReturnsCreated()]"/>
+    <testcase name="endToEnd_UserCreationToCharacterAssignment_Flow" classname="com.tus.characters.CharacterIntegrationTest" time="0.126" displayname="endToEnd_UserCreationToCharacterAssignment_Flow()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:endToEnd_UserCreationToCharacterAssignment_Flow()]"/>
+    <testcase name="verifyAuditingFields_ArePopulated" classname="com.tus.characters.CharacterIntegrationTest" time="0.013" displayname="verifyAuditingFields_ArePopulated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:verifyAuditingFields_ArePopulated()]">
+      <failure>
+        <expected>MAPPER_ADMIN</expected>
+        <actual>CHARACTERS_MS</actual>
+        org.opentest4j.AssertionFailedError: expected: &lt;MAPPER_ADMIN&gt; but was: &lt;CHARACTERS_MS&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)&#13;
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)&#13;
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)&#13;
+	at com.tus.characters.CharacterIntegrationTest.verifyAuditingFields_ArePopulated(CharacterIntegrationTest.java:95)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+
+      </failure>
+    </testcase>
+  </testsuite>
+</testrun>

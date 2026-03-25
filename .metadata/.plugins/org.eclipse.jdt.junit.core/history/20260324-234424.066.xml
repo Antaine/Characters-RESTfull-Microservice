@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserControllerTest" project="characters" tests="2" started="2" failures="1" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.controller.UserControllerTest" time="0.183" displayname="UserControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.UserControllerTest]">
+    <testcase name="createUser_ValidRequest_ReturnsCreated" classname="com.tus.characters.controller.UserControllerTest" time="0.169" displayname="createUser_ValidRequest_ReturnsCreated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.UserControllerTest]/[method:createUser_ValidRequest_ReturnsCreated()]">
+      <failure>java.lang.AssertionError: Status expected:&lt;201&gt; but was:&lt;500&gt;&#13;
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)&#13;
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)&#13;
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)&#13;
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)&#13;
+	at com.tus.characters.controller.UserControllerTest.createUser_ValidRequest_ReturnsCreated(UserControllerTest.java:39)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="createUser_InvalidEmail_ReturnsBadRequest" classname="com.tus.characters.controller.UserControllerTest" time="0.013" displayname="createUser_InvalidEmail_ReturnsBadRequest()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.controller.UserControllerTest]/[method:createUser_InvalidEmail_ReturnsBadRequest()]"/>
+  </testsuite>
+</testrun>

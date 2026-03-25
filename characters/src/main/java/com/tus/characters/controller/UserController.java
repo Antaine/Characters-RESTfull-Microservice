@@ -3,6 +3,7 @@ package com.tus.characters.controller;
 import com.tus.characters.dto.UserDto;
 import com.tus.characters.entity.User;
 import com.tus.characters.mapper.UserMapper;
+import com.tus.characters.service.IUserService;
 import com.tus.characters.service.impl.UserServiceImpl;
 
 import jakarta.validation.Valid;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final IUserService userService;
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {

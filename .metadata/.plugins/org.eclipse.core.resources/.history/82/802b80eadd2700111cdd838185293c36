@@ -1,0 +1,80 @@
+package com.tus.characters;
+
+import com.tus.characters.dto.CharacterDto;
+import com.tus.characters.dto.UserDto;
+import com.tus.characters.entity.User;
+import com.tus.characters.repository.UserRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+// This annotation loads the ENTIRE application (Tomcat, DB, Spring)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class CharacterIntegrationTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate; // Required by your rubric!
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void fullApplicationFlow_CreateCharacter_ReturnsCreated() {
+        // 1. Arrange: Create a real User first so the foreign key is valid
+        User user = new User();
+        user.setUsername("integrationUser");
+        user.setEmail("int@test.com");
+        user.setPassword("password");
+        
+        // We use the Repository to set up our "Pre-conditions"
+        userRepository.save(user); 
+
+        CharacterDto newChar = new CharacterDto();
+        newChar.setCharacterClass("Rogue");
+        newChar.setCharacterRace("Human");
+        newChar.setLevel(5);
+        newChar.setUserId(user.getUserId()); // Link to the real ID
+
+        // 2. Act
+        ResponseEntity<String> response = restTemplate.postForEntity("/api/characters", newChar, String.class);
+
+        // 3. Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode(), 
+            "Should return 201 Created. Response body: " + response.getBody());
+    }
+    
+    @Test
+    void endToEnd_UserCreationToCharacterAssignment_Flow() {
+        // 1. Create User via POST - MUST provide valid data now!
+        UserDto userDto = new UserDto();
+        userDto.setUsername("IntegrationHero");
+        userDto.setEmail("hero@test.com");
+        userDto.setPassword("SecurePass123!");
+
+        ResponseEntity<UserDto> userResponse = restTemplate.postForEntity("/api/users", userDto, UserDto.class);
+        
+        // Safety check: ensure the user was actually created before moving to step 2
+        assertEquals(HttpStatus.CREATED, userResponse.getStatusCode(), "User creation failed!");
+        Long userId = userResponse.getBody().getUserId();
+
+        // 2. Create Character for that User
+        CharacterDto charDto = new CharacterDto();
+        charDto.setUserId(userId);
+        charDto.setCharacterClass("Paladin");
+        charDto.setCharacterRace("Dwarf");
+        charDto.setLevel(1);
+        
+        ResponseEntity<String> charResponse = restTemplate.postForEntity("/api/characters", charDto, String.class);
+        assertEquals(HttpStatus.CREATED, charResponse.getStatusCode(), "Character creation failed!");
+
+        // 3. Verify Character exists
+        ResponseEntity<List> listResponse = restTemplate.getForEntity("/api/characters", List.class);
+        assertTrue(listResponse.getBody().size() > 0, "Character list should not be empty");
+    }
+}

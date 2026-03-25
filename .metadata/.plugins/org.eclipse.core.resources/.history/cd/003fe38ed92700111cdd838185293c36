@@ -1,0 +1,69 @@
+package com.tus.characters.repository;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import com.tus.characters.entity.User;
+
+@DataJpaTest
+
+public class UserRespositoryTest {
+
+	@Autowired
+	private TestEntityManager entityManager;
+	@Autowired
+	private CharactersRepository characterRepository;
+
+	@Test
+    void createUser_Success() {
+        User user = new User();
+        user.setUsername("newuser");
+        user.setEmail("newuser@example.com");
+        user.setPassword("password");
+        User saved = entityManager.persistAndFlush(user);
+
+        assertNotNull(saved.getUserId(), "User should be saved and have an ID");
+    }
+
+	/*
+	 * @Test void deleteUser_CascadesToCharacters() { User user = new User();
+	 * user.setUsername("cascadeUser"); user.setEmail("cascade@example.com");
+	 * user.setPassword("password"); user = entityManager.persistAndFlush(user);
+	 * 
+	 * Character character = new Character(); character.setLevel(10);
+	 * character.setCharacterClass("Warrior"); character.setCharacterRace("Human");
+	 * character.setUser(user); entityManager.persistAndFlush(character);
+	 * 
+	 * entityManager.remove(user); entityManager.flush();
+	 * 
+	 * List<Character> characters = characterRepository.findByUser(user);
+	 * assertTrue(characters.isEmpty(),
+	 * "Characters should be deleted when user is removed"); }
+	 */
+
+	/*
+	 * @Test void testDeleteUser_CascadesToDeleteCharacters() { // Arrange: Create a
+	 * user with two characters User user = new User();
+	 * user.setUsername("cascadeUser"); user.setEmail("cascade@test.com");
+	 * user.setPassword("password"); user = entityManager.persistAndFlush(user);
+	 * 
+	 * Character c1 = new Character(); c1.setLevel(1);
+	 * c1.setCharacterClass("Warrior"); c1.setCharacterRace("Human");
+	 * c1.setUser(user);
+	 * 
+	 * Character c2 = new Character(); c2.setLevel(2); c2.setCharacterClass("Mage");
+	 * c2.setCharacterRace("Elf"); c2.setUser(user);
+	 * 
+	 * entityManager.persist(c1); entityManager.persist(c2); entityManager.flush();
+	 * 
+	 * // Act: Delete the user entityManager.remove(user); entityManager.flush();
+	 * entityManager.clear(); // Clear cache to force fresh DB check
+	 * 
+	 * // Assert: Verify characters are also gone List<Character> remainingChars =
+	 * characterRepository.findByUser(user); assertTrue(remainingChars.isEmpty(),
+	 * "Characters should be deleted when their User is deleted"); }
+	 */
+}
