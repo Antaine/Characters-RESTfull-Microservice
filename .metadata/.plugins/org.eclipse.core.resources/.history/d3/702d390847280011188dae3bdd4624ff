@@ -1,0 +1,18 @@
+package com.tus.characters;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+
+class CharactersApplicationTests {
+
+    @Test
+    void main_ShouldRunWithoutServer() {
+        new SpringApplicationBuilder(CharactersApplication.class)
+            .web(WebApplicationType.NONE)  // disables Tomcat
+            .run();                        // still loads Spring context
+    }
+    
+    @Test
+    void contextLoads() {}
+}

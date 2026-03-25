@@ -75,7 +75,7 @@ class UserMapperTest {
         user.setUsername("TestUser");
         user.setEmail("test@test.com");
         user.setMobileNumber("1234567890");
-        user.setPassword("pass123");
+      //  user.setPassword("pass123");
 
         UserDto dto = new UserDto(); // Create the target object first
 

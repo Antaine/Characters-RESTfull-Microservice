@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="UserMapperTest" project="characters" tests="5" started="5" failures="0" errors="0" ignored="0">
-  <testsuite name="com.tus.characters.mapper.UserMapperTest" time="0.01" displayname="UserMapperTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]">
-    <testcase name="testMapUserToDto_VerifyFields" classname="com.tus.characters.mapper.UserMapperTest" time="0.007" displayname="testMapUserToDto_VerifyFields()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:testMapUserToDto_VerifyFields()]"/>
-    <testcase name="testMapToUserDto_NullCharactersList" classname="com.tus.characters.mapper.UserMapperTest" time="0.001" displayname="testMapToUserDto_NullCharactersList()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:testMapToUserDto_NullCharactersList()]"/>
-    <testcase name="mapToUserDto_shouldMapCharactersList" classname="com.tus.characters.mapper.UserMapperTest" time="0.001" displayname="mapToUserDto_shouldMapCharactersList()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:mapToUserDto_shouldMapCharactersList()]"/>
-    <testcase name="mapToUserDto_shouldMapBasicFields" classname="com.tus.characters.mapper.UserMapperTest" time="0.001" displayname="mapToUserDto_shouldMapBasicFields()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:mapToUserDto_shouldMapBasicFields()]"/>
-    <testcase name="mapToUser_shouldMapFieldsCorrectly" classname="com.tus.characters.mapper.UserMapperTest" time="0.0" displayname="mapToUser_shouldMapFieldsCorrectly()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.mapper.UserMapperTest]/[method:mapToUser_shouldMapFieldsCorrectly()]"/>
-  </testsuite>
-</testrun>

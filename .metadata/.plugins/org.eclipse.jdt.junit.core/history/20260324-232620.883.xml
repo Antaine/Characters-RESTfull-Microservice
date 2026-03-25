@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterIntegrationTest" project="characters" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.tus.characters.CharacterIntegrationTest" time="0.47" displayname="CharacterIntegrationTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]">
-    <testcase name="fullApplicationFlow_CreateCharacter_ReturnsCreated" classname="com.tus.characters.CharacterIntegrationTest" time="0.47" displayname="fullApplicationFlow_CreateCharacter_ReturnsCreated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:fullApplicationFlow_CreateCharacter_ReturnsCreated()]"/>
-  </testsuite>
-</testrun>

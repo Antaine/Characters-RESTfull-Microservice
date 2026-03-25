@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="UserRespositoryTest" project="characters" tests="2" started="2" failures="0" errors="0" ignored="0">
-  <testsuite name="com.tus.characters.repository.UserRespositoryTest" time="0.366" displayname="UserRespositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.UserRespositoryTest]">
-    <testcase name="createUser_Success" classname="com.tus.characters.repository.UserRespositoryTest" time="0.273" displayname="createUser_Success()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.UserRespositoryTest]/[method:createUser_Success()]"/>
-    <testcase name="testDeleteUser_CascadesToDeleteCharacters" classname="com.tus.characters.repository.UserRespositoryTest" time="0.092" displayname="testDeleteUser_CascadesToDeleteCharacters()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.UserRespositoryTest]/[method:testDeleteUser_CascadesToDeleteCharacters()]"/>
-  </testsuite>
-</testrun>

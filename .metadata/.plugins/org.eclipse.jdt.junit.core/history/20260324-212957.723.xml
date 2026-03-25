@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterRepositoryTest" project="characters" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.tus.characters.repository.CharacterRepositoryTest" time="0.369" displayname="CharacterRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]">
-    <testcase name="findByUser_ReturnsCharacters" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.369" displayname="findByUser_ReturnsCharacters()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:findByUser_ReturnsCharacters()]"/>
-  </testsuite>
-</testrun>

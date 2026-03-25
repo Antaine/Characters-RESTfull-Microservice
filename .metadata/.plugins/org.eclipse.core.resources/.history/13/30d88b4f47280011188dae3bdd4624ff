@@ -1,0 +1,19 @@
+package com.tus.characters;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
+
+class CharactersApplicationMainTest {
+
+    @Test
+    void main_CanRunWithoutServer() {
+        SpringApplication app = new SpringApplication(CharactersApplication.class);
+        app.setWebApplicationType(WebApplicationType.NONE); // Prevent server from starting
+        app.run(new String[]{}); // This executes the line for coverage
+    }
+}
+    
+    @Test
+    void contextLoads() {}
+}

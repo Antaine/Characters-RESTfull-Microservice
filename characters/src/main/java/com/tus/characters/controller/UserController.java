@@ -59,7 +59,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(
             @PathVariable Long userId,
-            @RequestBody UserDto userDto) {
+            @Valid @RequestBody UserDto userDto) {
 
         User updatedUser = userService.updateUser(userId, userDto);
         UserDto updatedUserDto = UserMapper.mapToUserDto(updatedUser, new UserDto());

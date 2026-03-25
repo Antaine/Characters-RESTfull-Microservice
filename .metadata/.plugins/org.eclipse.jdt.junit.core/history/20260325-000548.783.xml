@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterIntegrationTest" project="characters" tests="3" started="3" failures="0" errors="0" ignored="0">
-  <testsuite name="com.tus.characters.CharacterIntegrationTest" time="0.59" displayname="CharacterIntegrationTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]">
-    <testcase name="fullApplicationFlow_CreateCharacter_ReturnsCreated" classname="com.tus.characters.CharacterIntegrationTest" time="0.451" displayname="fullApplicationFlow_CreateCharacter_ReturnsCreated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:fullApplicationFlow_CreateCharacter_ReturnsCreated()]"/>
-    <testcase name="endToEnd_UserCreationToCharacterAssignment_Flow" classname="com.tus.characters.CharacterIntegrationTest" time="0.13" displayname="endToEnd_UserCreationToCharacterAssignment_Flow()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:endToEnd_UserCreationToCharacterAssignment_Flow()]"/>
-    <testcase name="verifyAuditingFields_ArePopulated" classname="com.tus.characters.CharacterIntegrationTest" time="0.007" displayname="verifyAuditingFields_ArePopulated()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.CharacterIntegrationTest]/[method:verifyAuditingFields_ArePopulated()]"/>
-  </testsuite>
-</testrun>

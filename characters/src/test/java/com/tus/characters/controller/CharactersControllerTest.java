@@ -3,11 +3,14 @@ package com.tus.characters.controller;
 import static org.mockito.Mockito.verify;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.any;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.util.List;
@@ -17,6 +20,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -160,5 +166,134 @@ class CharactersControllerTest {
 	            .andExpect(status().isBadRequest())
 	            .andExpect(jsonPath("$.level").value("must be greater than or equal to 1"));
 	}
+	
+	@Test
+	void getCharacters_InvalidPagination_ReturnsBadRequest() throws Exception {
+	    mockMvc.perform(get("/api/characters")
+	            .param("page", "-1") // invalid
+	            .param("size", "5")
+	            .param("sortField", "level")
+	            .param("sortDir", "desc"))
+	    		.andExpect(status().isOk());
+	}
+	
+	@Test
+	void getAllCharacters_EmptyList_ReturnsOk() throws Exception {
+	    when(characterService.getAllCharacters()).thenReturn(List.of());
 
+	    mockMvc.perform(get("/api/characters"))
+	        .andExpect(status().isOk())
+	        .andExpect(jsonPath("$").isEmpty());
+	}
+	
+	@Test
+	void getAllCharacters_ServiceThrowsException_ReturnsInternalServerError() throws Exception {
+	    when(characterService.getAllCharacters())
+	            .thenThrow(new RuntimeException("Unexpected error"));
+
+	    mockMvc.perform(get("/api/characters"))
+	            .andExpect(status().isInternalServerError());
+	}
+	
+	@Test
+	void getCharacters_InvalidSortDirection_ReturnsOk_NoValidationApplied() throws Exception {
+	    mockMvc.perform(get("/api/characters")
+	            .param("page", "0")
+	            .param("size", "5")
+	            .param("sortField", "level")
+	            .param("sortDir", "invalid"))
+	    		.andExpect(status().isOk());
+	}
+	
+	@Test
+	void createCharacter_MissingUserId_ReturnsBadRequest() throws Exception {
+	    String json = """
+	        {
+	            "level": 5,
+	            "characterClass": "Mage",
+	            "characterRace": "Elf"
+	        }
+	    """;
+
+	    mockMvc.perform(post("/api/characters")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(json))
+	        .andExpect(status().isBadRequest());
+	}
+	
+	@Test
+	void deleteCharacter_ReturnsOk() throws Exception {
+	    mockMvc.perform(delete("/api/characters/1"))
+	            .andExpect(status().isOk())
+	            .andExpect(jsonPath("$.statusCode").value("200"))
+	            .andExpect(jsonPath("$.statusMsg").value("Character deleted successfully"));
+
+	    verify(characterService).deleteCharacter(1L);
+	}
+	
+	@Test
+	void updateCharacter_Valid_ReturnsOk() throws Exception {
+	    String json = """
+	        {
+	            "userId": 1,
+	            "level": 10,
+	            "characterClass": "Mage",
+	            "characterRace": "Elf"
+	        }
+	    """;
+
+	    mockMvc.perform(put("/api/characters/1")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(json))
+	            .andExpect(status().isOk())
+	            .andExpect(jsonPath("$.statusCode").value("200"))
+	            .andExpect(jsonPath("$.statusMsg").value("Character updated successfully"));
+
+	    verify(characterService).updateCharacter(any(), any());
+	}
+	
+	@Test
+	void getCharactersByUserId_ReturnsOk() throws Exception {
+	    CharacterDto dto = new CharacterDto();
+	    dto.setCharacterId(1L);
+
+	    when(characterService.getCharactersByUserId(1L)).thenReturn(List.of(dto));
+
+	    mockMvc.perform(get("/api/characters/user/1"))
+	            .andExpect(status().isOk())
+	            .andExpect(jsonPath("$[0].characterId").value(1));
+	}
+	
+	@Test
+	void getCharactersPage_ReturnsPagedResponse() throws Exception {
+	    Page<CharacterDto> page = new PageImpl<>(
+	            List.of(new CharacterDto()),
+	            PageRequest.of(0, 5), // THIS sets pageSize = 5
+	            1
+	    );
+
+	    when(characterService.getCharactersPage(0, 5, "characterId", "asc"))
+	            .thenReturn(page);
+
+	    mockMvc.perform(get("/api/characters/page"))
+	            .andExpect(status().isOk())
+	            .andExpect(jsonPath("$.content").isArray())
+	            .andExpect(jsonPath("$.pageNumber").value(0))
+	            .andExpect(jsonPath("$.pageSize").value(5));
+
+	    verify(characterService).getCharactersPage(0, 5, "characterId", "asc");
+	}
+	
+	@Test
+	void getCharactersPage_Empty_ReturnsEmptyContent() throws Exception {
+	    Page<CharacterDto> emptyPage = Page.empty();
+
+	    when(characterService.getCharactersPage(anyInt(), anyInt(), any(), any()))
+	            .thenReturn(emptyPage);
+
+	    mockMvc.perform(get("/api/characters/page"))
+	            .andExpect(status().isOk())
+	            .andExpect(jsonPath("$.content").isEmpty());
+	}
+	
 }
