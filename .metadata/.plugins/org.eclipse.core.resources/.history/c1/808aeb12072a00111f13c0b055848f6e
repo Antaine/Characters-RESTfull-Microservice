@@ -1,0 +1,29 @@
+package com.tus.characters.entity;
+
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+
+public class CharacterEntityTest {
+
+	@Test
+	void prePersist_SetsDate_WhenNull() {
+	    Character character = new Character();
+	    character.setCreationDate(null);
+
+	    character.prePersist();
+
+	    assertNotNull(character.getCreationDate());
+	}
+	
+	@Test
+	void prePersist_DoesNotOverride_WhenAlreadySet() {
+	    Character character = new Character();
+	    LocalDate date = LocalDate.of(2020, 1, 1);
+	    character.setCreationDate(date);
+
+	    character.prePersist();
+
+	    assertEquals(date, character.getCreationDate());
+	}
+}

@@ -1,0 +1,11 @@
+package com.tus.characters.entity;
+
+public class CharacterEntityTest {
+
+	@PrePersist
+	public void prePersist() {
+	    if (creationDate == null) {
+	        creationDate = LocalDate.now();
+	    }
+	}
+}

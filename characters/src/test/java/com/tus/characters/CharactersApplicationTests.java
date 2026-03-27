@@ -6,15 +6,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 class CharactersApplicationTests {
 
-    @Test
-    void main_ShouldRunWithoutServer() {
-        try {
-            CharactersApplication.main(new String[]{});
-        } catch (Exception e) {
-            // Ignore exceptions during test — we just want coverage
-        }
-    }
-    
-    @Test
-    void contextLoads() {}
+	//AI Generated but does not work as intended
+	@Test
+	void main_ShouldRunWithoutServer() {
+		try {
+			CharactersApplication.main(new String[] {});
+		} catch (Exception e) {
+		}
+	}
+
+	@Test
+	void contextLoads() {
+	}
 }

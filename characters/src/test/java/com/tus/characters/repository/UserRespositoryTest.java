@@ -44,7 +44,6 @@ public class UserRespositoryTest {
         user.setPassword("password");
         user = entityManager.persistAndFlush(user);
 
-
 	     Character c1 = new Character();
 	     c1.setLevel(1);
 	     c1.setCharacterClass("Warrior");

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterRepositoryTest.testSaveCharacter_InvalidLevel_ThrowsException1" project="characters" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.repository.CharacterRepositoryTest" time="0.309" displayname="CharacterRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]">
+    <testcase name="testSaveCharacter_InvalidLevel_ThrowsException1" classname="com.tus.characters.repository.CharacterRepositoryTest" time="0.309" displayname="testSaveCharacter_InvalidLevel_ThrowsException1()" uniqueid="[engine:junit-jupiter]/[class:com.tus.characters.repository.CharacterRepositoryTest]/[method:testSaveCharacter_InvalidLevel_ThrowsException1()]"/>
+  </testsuite>
+</testrun>

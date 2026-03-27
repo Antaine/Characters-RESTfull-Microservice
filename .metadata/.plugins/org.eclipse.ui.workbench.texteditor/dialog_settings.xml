@@ -4,21 +4,21 @@
 	<section name="java.lang.Class">
 		<item key="replaceBarOpen" value="false"/>
 		<list key="findhistory">
-			<item value="getcharacters_invalidsort"/>
-			<item value="createCharacter_InvalidFields_ReturnsMultipleErrors"/>
-			<item value="deleteUser"/>
-			<item value="createUser_CallsUserRepositorySave()"/>
-			<item value="deleteCharacter_CallsRepositoryDelete"/>
-			<item value="getall"/>
-			<item value="invalidLevel"/>
-			<item value="testGetCharactersByUse"/>
-			<item value="testGetCharactersByUserId"/>
-			<item value="updateCharacter"/>
-			<item value="RuntimeException"/>
-			<item value="characterDto.getUserId().toString()"/>
-			<item value="characterDTO.ge"/>
-			<item value=".orElseThrow(() -&gt; new RuntimeException"/>
-			<item value="assertThrows(RuntimeException.class,"/>
+			<item value="createCharacter_InvalidFields_ReturnsDetailedErrors()"/>
+			<item value="getCharacter_NonExistentId"/>
+			<item value=" testGetCharactersByUser()"/>
+			<item value="updateCharacter_Valid_ReturnsOk()"/>
+			<item value="testAuditing_UpdatesLastModifiedFields()"/>
+			<item value="endToEnd_UserCreationToCharacterAssignment_Flow()"/>
+			<item value="fullWorkflow_CreateUserAndAssignCharacter_Success()"/>
+			<item value="deleteCharacter_ReturnsOk()"/>
+			<item value="getCharacter_NotFound_Returns404()"/>
+			<item value="createCharacter_InvalidLevel_ReturnsBadRequest()"/>
+			<item value="createCharacter_Valid_ReturnsCreated()"/>
+			<item value="testUpdateCharacter_SameData_NoUnexpectedChanges()"/>
+			<item value="testGetAllCharacters_Empty()"/>
+			<item value="deleteCharacter_CallsRepositoryDelete() "/>
+			<item value="createCharacter_CallsUserRepositoryFindById()"/>
 		</list>
 	</section>
 </section>

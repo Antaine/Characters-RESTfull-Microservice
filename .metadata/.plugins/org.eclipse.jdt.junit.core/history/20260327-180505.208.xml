@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="CharacterEntityTest" project="characters" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="com.tus.characters.entity.CharacterEntityTest" time="0.006" displayname="CharacterEntityTest" uniqueid="[engine:junit-vintage]/[runner:com.tus.characters.entity.CharacterEntityTest]">
+    <testcase name="prePersist_DoesNotOverride_WhenAlreadySet" classname="com.tus.characters.entity.CharacterEntityTest" time="0.0" displayname="prePersist_DoesNotOverride_WhenAlreadySet" uniqueid="[engine:junit-vintage]/[runner:com.tus.characters.entity.CharacterEntityTest]/[test:prePersist_DoesNotOverride_WhenAlreadySet(com.tus.characters.entity.CharacterEntityTest)]"/>
+    <testcase name="prePersist_SetsDate_WhenNull" classname="com.tus.characters.entity.CharacterEntityTest" time="0.006" displayname="prePersist_SetsDate_WhenNull" uniqueid="[engine:junit-vintage]/[runner:com.tus.characters.entity.CharacterEntityTest]/[test:prePersist_SetsDate_WhenNull(com.tus.characters.entity.CharacterEntityTest)]"/>
+  </testsuite>
+</testrun>

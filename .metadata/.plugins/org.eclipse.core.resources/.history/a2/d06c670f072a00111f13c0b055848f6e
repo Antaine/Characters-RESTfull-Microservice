@@ -1,0 +1,18 @@
+package com.tus.characters.entity;
+
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+
+public class CharacterEntityTest {
+
+	@Test
+	void prePersist_SetsDate_WhenNull() {
+	    Character character = new Character();
+	    character.setCreationDate(null);
+
+	    character.prePersist();
+
+	    assertNotNull(character.getCreationDate());
+	}
+}

@@ -69,7 +69,7 @@ class UserMapperTest {
     
     @Test
     void testMapUserToDto_VerifyFields() {
-        // Arrange
+
         User user = new User();
         user.setUserId(1L);
         user.setUsername("TestUser");
@@ -77,12 +77,9 @@ class UserMapperTest {
         user.setMobileNumber("1234567890");
       //  user.setPassword("pass123");
 
-        UserDto dto = new UserDto(); // Create the target object first
+        UserDto dto = new UserDto();
+        UserMapper.mapToUserDto(user, dto);
 
-        // Act
-        UserMapper.mapToUserDto(user, dto); // Pass both in
-
-        // Assert
         assertEquals("TestUser", dto.getUsername());
         assertEquals("test@test.com", dto.getEmail());
         assertEquals("1234567890", dto.getMobileNumber());
@@ -90,20 +87,13 @@ class UserMapperTest {
 
     @Test
     void testMapToUserDto_NullCharactersList() {
-        // Arrange
         User user = new User();
         user.setUserId(1L);
-        user.setCharacters(null); // The specific branch we want to test
+        user.setCharacters(null);
 
         UserDto dto = new UserDto();
-
-        // Act
         UserMapper.mapToUserDto(user, dto);
-
-        // Assert
         assertNotNull(dto);
-        // This proves your 'if(user.getCharacters() != null)' check worked 
-        // and didn't throw a NullPointerException
         assertNull(dto.getCharacters()); 
     }
 }

@@ -87,19 +87,17 @@ class CharactersControllerTest {
 		responseDto.setLevel(10);
 
 		when(characterService.createCharacter(any())).thenReturn(responseDto);
-
 		mockMvc.perform(post("/api/characters").contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(status().isCreated()).andExpect(jsonPath("$.statusCode").value("201")) // <- match actual
-																									// field
-				.andExpect(jsonPath("$.statusMsg").value("Character created successfully")); // <- match actual field
+				.andExpect(status().isCreated()).andExpect(jsonPath("$.statusCode").value("201"))
+				.andExpect(jsonPath("$.statusMsg").value("Character created successfully"));
 	}
 
 	@Test
 	void createCharacter_LevelTooHigh_Returns400() throws Exception {
-		String json = "{\"level\": 25, \"characterClass\": \"Mage\", \"characterRace\": \"Elf\"}";
 
+		String json = "{\"level\": 25, \"characterClass\": \"Mage\", \"characterRace\": \"Elf\"}";
 		mockMvc.perform(post("/api/characters").contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(status().isBadRequest()); // This will pass!
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -110,16 +108,14 @@ class CharactersControllerTest {
 		dto.setLevel(10);
 
 		when(characterService.getCharacterById(1L)).thenReturn(dto);
-
 		mockMvc.perform(get("/api/characters/1")).andExpect(status().isOk())
 				.andExpect(jsonPath("$.characterClass").value("Warrior")).andExpect(jsonPath("$.level").value(10));
 	}
 
 	@Test
 	void createCharacter_BoundaryLevel1_ReturnsCreated() throws Exception {
-		String json = "{\"userId\": 1, \"level\": 1, \"characterClass\": \"Fighter\", \"characterRace\": \"Orc\"}";
 
-		// Stubbing needed because the controller calls the service
+		String json = "{\"userId\": 1, \"level\": 1, \"characterClass\": \"Fighter\", \"characterRace\": \"Orc\"}";
 		when(characterService.createCharacter(any())).thenReturn(new CharacterDto());
 
 		mockMvc.perform(post("/api/characters").contentType(MediaType.APPLICATION_JSON).content(json))
@@ -139,161 +135,122 @@ class CharactersControllerTest {
 
 		mockMvc.perform(post("/api/characters").contentType(MediaType.APPLICATION_JSON).content(json))
 				.andExpect(status().isBadRequest())
-				// This is what verifies the "Detailed Error Messages" from your checklist
-				// Update these values to match what showed up in your 400 response body earlier
 				.andExpect(jsonPath("$.level").value("must be less than or equal to 20"))
 				.andExpect(jsonPath("$.characterClass").value("Character class cannot be null or empty"));
 	}
-	
+
 	@Test
 	void getCharacter_NotFound_Returns404() throws Exception {
-	    // Mock the service to throw our custom ResourceNotFoundException
-	    when(characterService.getCharacterById(999L))
-	        .thenThrow(new ResourceNotFoundException("Character", "id", "999"));
+		when(characterService.getCharacterById(999L))
+				.thenThrow(new ResourceNotFoundException("Character", "id", "999"));
 
-	    mockMvc.perform(get("/api/characters/999"))
-	            .andExpect(status().isNotFound())
-	            .andExpect(jsonPath("$.statusMsg").exists()); 
+		mockMvc.perform(get("/api/characters/999")).andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.statusMsg").exists());
 	}
 
 	@Test
 	void createCharacter_LevelZero_ReturnsBadRequest() throws Exception {
-	    String json = "{\"userId\": 1, \"level\": 0, \"characterClass\": \"Mage\", \"characterRace\": \"Human\"}";
+		String json = "{\"userId\": 1, \"level\": 0, \"characterClass\": \"Mage\", \"characterRace\": \"Human\"}";
 
-	    mockMvc.perform(post("/api/characters")
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(json))
-	            .andExpect(status().isBadRequest())
-	            .andExpect(jsonPath("$.level").value("must be greater than or equal to 1"));
+		mockMvc.perform(post("/api/characters").contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.level").value("must be greater than or equal to 1"));
 	}
-	
+
 	@Test
 	void getCharacters_InvalidPagination_ReturnsBadRequest() throws Exception {
-	    mockMvc.perform(get("/api/characters")
-	            .param("page", "-1") // invalid
-	            .param("size", "5")
-	            .param("sortField", "level")
-	            .param("sortDir", "desc"))
-	    		.andExpect(status().isOk());
+		mockMvc.perform(get("/api/characters").param("page", "-1") // invalid
+				.param("size", "5").param("sortField", "level").param("sortDir", "desc")).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void getAllCharacters_EmptyList_ReturnsOk() throws Exception {
-	    when(characterService.getAllCharacters()).thenReturn(List.of());
+		when(characterService.getAllCharacters()).thenReturn(List.of());
 
-	    mockMvc.perform(get("/api/characters"))
-	        .andExpect(status().isOk())
-	        .andExpect(jsonPath("$").isEmpty());
+		mockMvc.perform(get("/api/characters")).andExpect(status().isOk()).andExpect(jsonPath("$").isEmpty());
 	}
-	
+
 	@Test
 	void getAllCharacters_ServiceThrowsException_ReturnsInternalServerError() throws Exception {
-	    when(characterService.getAllCharacters())
-	            .thenThrow(new RuntimeException("Unexpected error"));
+		when(characterService.getAllCharacters()).thenThrow(new RuntimeException("Unexpected error"));
 
-	    mockMvc.perform(get("/api/characters"))
-	            .andExpect(status().isInternalServerError());
+		mockMvc.perform(get("/api/characters")).andExpect(status().isInternalServerError());
 	}
-	
+
 	@Test
 	void getCharacters_InvalidSortDirection_ReturnsOk_NoValidationApplied() throws Exception {
-	    mockMvc.perform(get("/api/characters")
-	            .param("page", "0")
-	            .param("size", "5")
-	            .param("sortField", "level")
-	            .param("sortDir", "invalid"))
-	    		.andExpect(status().isOk());
+		mockMvc.perform(get("/api/characters").param("page", "0").param("size", "5").param("sortField", "level")
+				.param("sortDir", "invalid")).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	void createCharacter_MissingUserId_ReturnsBadRequest() throws Exception {
-	    String json = """
-	        {
-	            "level": 5,
-	            "characterClass": "Mage",
-	            "characterRace": "Elf"
-	        }
-	    """;
+		String json = """
+				    {
+				        "level": 5,
+				        "characterClass": "Mage",
+				        "characterRace": "Elf"
+				    }
+				""";
 
-	    mockMvc.perform(post("/api/characters")
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(json))
-	        .andExpect(status().isBadRequest());
+		mockMvc.perform(post("/api/characters").contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(status().isBadRequest());
 	}
-	
+
 	@Test
 	void deleteCharacter_ReturnsOk() throws Exception {
-	    mockMvc.perform(delete("/api/characters/1"))
-	            .andExpect(status().isOk())
-	            .andExpect(jsonPath("$.statusCode").value("200"))
-	            .andExpect(jsonPath("$.statusMsg").value("Character deleted successfully"));
+		mockMvc.perform(delete("/api/characters/1")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.statusCode").value("200"))
+				.andExpect(jsonPath("$.statusMsg").value("Character deleted successfully"));
 
-	    verify(characterService).deleteCharacter(1L);
+		verify(characterService).deleteCharacter(1L);
 	}
-	
+
 	@Test
 	void updateCharacter_Valid_ReturnsOk() throws Exception {
-	    String json = """
-	        {
-	            "userId": 1,
-	            "level": 10,
-	            "characterClass": "Mage",
-	            "characterRace": "Elf"
-	        }
-	    """;
+		String json = """
+				    {
+				        "userId": 1,
+				        "level": 10,
+				        "characterClass": "Mage",
+				        "characterRace": "Elf"
+				    }
+				""";
 
-	    mockMvc.perform(put("/api/characters/1")
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .content(json))
-	            .andExpect(status().isOk())
-	            .andExpect(jsonPath("$.statusCode").value("200"))
-	            .andExpect(jsonPath("$.statusMsg").value("Character updated successfully"));
+		mockMvc.perform(put("/api/characters/1").contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(status().isOk()).andExpect(jsonPath("$.statusCode").value("200"))
+				.andExpect(jsonPath("$.statusMsg").value("Character updated successfully"));
 
-	    verify(characterService).updateCharacter(any(), any());
+		verify(characterService).updateCharacter(any(), any());
 	}
-	
+
 	@Test
 	void getCharactersByUserId_ReturnsOk() throws Exception {
-	    CharacterDto dto = new CharacterDto();
-	    dto.setCharacterId(1L);
-
-	    when(characterService.getCharactersByUserId(1L)).thenReturn(List.of(dto));
-
-	    mockMvc.perform(get("/api/characters/user/1"))
-	            .andExpect(status().isOk())
-	            .andExpect(jsonPath("$[0].characterId").value(1));
+		CharacterDto dto = new CharacterDto();
+		dto.setCharacterId(1L);
+		when(characterService.getCharactersByUserId(1L)).thenReturn(List.of(dto));
+		mockMvc.perform(get("/api/characters/user/1")).andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].characterId").value(1));
 	}
-	
+
 	@Test
 	void getCharactersPage_ReturnsPagedResponse() throws Exception {
-	    Page<CharacterDto> page = new PageImpl<>(
-	            List.of(new CharacterDto()),
-	            PageRequest.of(0, 5), // THIS sets pageSize = 5
-	            1
-	    );
+		Page<CharacterDto> page = new PageImpl<>(List.of(new CharacterDto()), PageRequest.of(0, 5), 1);
+		when(characterService.getCharactersPage(0, 5, "characterId", "asc")).thenReturn(page);
 
-	    when(characterService.getCharactersPage(0, 5, "characterId", "asc"))
-	            .thenReturn(page);
-
-	    mockMvc.perform(get("/api/characters/page"))
-	            .andExpect(status().isOk())
-	            .andExpect(jsonPath("$.content").isArray())
-	            .andExpect(jsonPath("$.pageNumber").value(0))
-	            .andExpect(jsonPath("$.pageSize").value(5));
-
-	    verify(characterService).getCharactersPage(0, 5, "characterId", "asc");
+		mockMvc.perform(get("/api/characters/page")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.content").isArray()).andExpect(jsonPath("$.pageNumber").value(0))
+				.andExpect(jsonPath("$.pageSize").value(5));
+		verify(characterService).getCharactersPage(0, 5, "characterId", "asc");
 	}
-	
+
 	@Test
 	void getCharactersPage_Empty_ReturnsEmptyContent() throws Exception {
-	    Page<CharacterDto> emptyPage = Page.empty();
-
-	    when(characterService.getCharactersPage(anyInt(), anyInt(), any(), any()))
-	            .thenReturn(emptyPage);
-
-	    mockMvc.perform(get("/api/characters/page"))
-	            .andExpect(status().isOk())
-	            .andExpect(jsonPath("$.content").isEmpty());
+		Page<CharacterDto> emptyPage = Page.empty();
+		when(characterService.getCharactersPage(anyInt(), anyInt(), any(), any())).thenReturn(emptyPage);
+		mockMvc.perform(get("/api/characters/page")).andExpect(status().isOk())
+				.andExpect(jsonPath("$.content").isEmpty());
 	}
+
 	
 }
