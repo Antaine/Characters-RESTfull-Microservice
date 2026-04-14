@@ -4,21 +4,21 @@
 	<section name="java.lang.Class">
 		<item key="replaceBarOpen" value="false"/>
 		<list key="findhistory">
+			<item value="te"/>
+			<item value="testupdate"/>
+			<item value="assertTrue(getResponse.getBody().size() &gt; 0)"/>
+			<item value=" testGetUserById_NotFound"/>
+			<item value="createCharacter_ReturnsCreated("/>
+			<item value="createCharacter"/>
+			<item value="testGetallCharacters()"/>
+			<item value="testUpdateCharacter_InvalidLevel_ThrowsException()"/>
+			<item value="Character character = createCharacterWithUser(1L, 5);"/>
+			<item value="@Test"/>
 			<item value="createCharacter_InvalidFields_ReturnsDetailedErrors()"/>
 			<item value="getCharacter_NonExistentId"/>
 			<item value=" testGetCharactersByUser()"/>
 			<item value="updateCharacter_Valid_ReturnsOk()"/>
 			<item value="testAuditing_UpdatesLastModifiedFields()"/>
-			<item value="endToEnd_UserCreationToCharacterAssignment_Flow()"/>
-			<item value="fullWorkflow_CreateUserAndAssignCharacter_Success()"/>
-			<item value="deleteCharacter_ReturnsOk()"/>
-			<item value="getCharacter_NotFound_Returns404()"/>
-			<item value="createCharacter_InvalidLevel_ReturnsBadRequest()"/>
-			<item value="createCharacter_Valid_ReturnsCreated()"/>
-			<item value="testUpdateCharacter_SameData_NoUnexpectedChanges()"/>
-			<item value="testGetAllCharacters_Empty()"/>
-			<item value="deleteCharacter_CallsRepositoryDelete() "/>
-			<item value="createCharacter_CallsUserRepositoryFindById()"/>
 		</list>
 	</section>
 </section>
