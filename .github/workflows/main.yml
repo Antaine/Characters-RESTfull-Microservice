@@ -24,3 +24,9 @@ jobs:
       - name: Build with Maven
         working-directory: characters
         run: mvn clean package
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: characters-jar
+          path: characters/target/*.jar
