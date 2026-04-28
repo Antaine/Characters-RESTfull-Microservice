@@ -34,6 +34,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t characters-app ./characters
 
+      - name: Verify Docker image
+        run: docker images characters-app
+
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
