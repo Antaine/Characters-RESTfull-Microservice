@@ -23,7 +23,7 @@ jobs:
 
       - name: Build with Maven
         working-directory: characters
-        run: mvn clean package
+        run: mvn clean verify
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
