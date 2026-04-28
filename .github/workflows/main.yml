@@ -25,6 +25,12 @@ jobs:
         working-directory: characters
         run: mvn clean verify
 
+      - name: SonarCloud Scan
+        working-directory: characters
+        run: mvn sonar:sonar -Dsonar.projectKey=2f46dcb51bc38bd3ac86b5cb1fe62bdc48e0d1a4 -Dsonar.organization=antaine -Dsonar.host.url=https://sonarcloud.io
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Build Docker image
         run: docker build -t characters-app ./characters
 
