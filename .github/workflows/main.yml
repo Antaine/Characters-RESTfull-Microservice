@@ -25,6 +25,9 @@ jobs:
         working-directory: characters
         run: mvn clean verify
 
+      - name: Build Docker image
+        run: docker build -t characters-app ./characters
+
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
