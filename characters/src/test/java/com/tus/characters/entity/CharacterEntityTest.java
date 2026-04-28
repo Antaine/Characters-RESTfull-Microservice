@@ -1,32 +1,32 @@
 package com.tus.characters.entity;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CharacterEntityTest {
 
-	@Test
-	public void prePersist_SetsDate_WhenNull() {
-	    Character character = new Character();
-	    character.setCreationDate(null);
+    @Test
+    public void prePersist_SetsDate_WhenNull() {
+        Character character = new Character();
+        character.setCreationDate(null);
 
-	    character.prePersist();
+        character.prePersist();
 
-	    assertNotNull(character.getCreationDate());
-	}
-	
-	@Test
-	public void prePersist_DoesNotOverride_WhenAlreadySet() {
-	    Character character = new Character();
-	    LocalDate date = LocalDate.of(2020, 1, 1);
-	    character.setCreationDate(date);
+        assertNotNull(character.getCreationDate());
+    }
 
-	    character.prePersist();
+    @Test
+    public void prePersist_DoesNotOverride_WhenAlreadySet() {
+        Character character = new Character();
+        LocalDate date = LocalDate.of(2020, 1, 1);
+        character.setCreationDate(date);
 
-	    assertEquals(date, character.getCreationDate());
-	}
+        character.prePersist();
+
+        assertEquals(date, character.getCreationDate());
+    }
 }
