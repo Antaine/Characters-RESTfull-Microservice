@@ -22,4 +22,5 @@ jobs:
           cache: maven
 
       - name: Build with Maven
+        working-directory: characters
         run: mvn clean package
